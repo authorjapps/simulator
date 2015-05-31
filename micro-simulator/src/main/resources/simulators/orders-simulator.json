@@ -1,0 +1,18 @@
+{
+  "name" : "Orders-Simulator",
+  "apis" : [
+    {
+      "name" : "Order details for ID 2",
+      "operation" : "GET",
+      "url" : "/orders/2",
+      "response" : {
+        "status" : 200,
+        "body" : {
+          "id": 2,
+          "customerId": 1,
+          "item": "Mobile Phone"
+        }
+      }
+    }
+  ]
+}

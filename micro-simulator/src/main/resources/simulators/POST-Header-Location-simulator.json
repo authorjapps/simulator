@@ -1,0 +1,22 @@
+{
+  "name": "POST-Simulator",
+  "apis": [
+    {
+      "name": "Creates a Resource with 201 status",
+      "operation": "POST",
+      "url": "/orders",
+      "request": {
+        "customerId": 1,
+        "item": "Mobile Phone"
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Location": "/orders/10019"
+        },
+        "body": {
+        }
+      }
+    }
+  ]
+}

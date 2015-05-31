@@ -1,0 +1,31 @@
+######################
+# Directories
+######################
+/build/
+/bin/
+target/
+ 
+######################
+# OS Files
+######################
+.DS_Store
+
+######################
+# Eclipse
+######################
+.project
+.metadata
+.classpath
+.settings/
+
+######################
+# IntelliJ
+######################
+.idea
+*.iml
+
+# Error code simulator handling
+# Readme file with java DSL, JSON DSL
+# Regex in the Request Handling
+# Headers strings with java DSL
+# Readme with POST eg

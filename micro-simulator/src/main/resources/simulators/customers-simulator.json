@@ -1,0 +1,41 @@
+{
+  "name" : "Customers-Simulator",
+  "apis" : [
+    {
+      "name": "Get Customer by Id",
+      "operation": "GET",
+      "url": "/customers/1",
+      "response": {
+        "status": 200,
+        "body": {
+          "id": 1,
+          "name": "Kate",
+          "sex": "Female"
+        }
+      }
+    },
+    {
+      "name" : "Get Resources List",
+      "operation" : "GET",
+      "url" : "/customers",
+      "response" : {
+        "headers" : {
+          "language" : "en_GB"
+        },
+        "status" : 200,
+        "body" : [
+          {
+            "id": 1,
+            "name": "Kate",
+            "sex": "Female"
+          },
+          {
+            "id": 2,
+            "name": "Rowland",
+            "sex": "Male"
+          }
+        ]
+      }
+    }
+  ]
+}

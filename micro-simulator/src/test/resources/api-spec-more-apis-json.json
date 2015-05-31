@@ -1,0 +1,35 @@
+{
+  "name": "Customers-Order-Simulator",
+  "apis": [
+    {
+      "name": "Get Customers by Id 1",
+      "operation": "GET",
+      "url": "/customers/1",
+      "response": {
+        "header": {
+        },
+        "status": 200,
+        "body": {
+          "id": 1,
+          "name": "Kate",
+          "sex": "Female"
+        }
+      }
+    },
+    {
+      "name": "Get Order by Id 2",
+      "operation": "GET",
+      "url": "/orders/2",
+      "response": {
+        "header": {
+        },
+        "status": 200,
+        "body": {
+          "id": 2,
+          "customerId": 1,
+          "item": "Mobile Phone"
+        }
+      }
+    }
+  ]
+}
