@@ -31,7 +31,7 @@ e.g.
 
 * More examples here:
 `````
-- See: Test case: uk.gov.ipt.simulator.impl.SimpleRestSimulatorTest
+- See: Test case: org.japps.simulator.impl.SimpleRestSimulatorTest
   #willSimulateGETAtRunTimeWithPortAndUrlUsingApiBuilder()
 `````
 
