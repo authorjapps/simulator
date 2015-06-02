@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>simulator-parent</artifactId>
-        <groupId>org.japps.simulator</groupId>
+        <groupId>org.jsmart.simulator</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -107,7 +107,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>org.japps.simulator.main.JsonSimulatorsMain</mainClass>
+                            <mainClass>org.jsmart.simulator.main.JsonSimulatorsMain</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

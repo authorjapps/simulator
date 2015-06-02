@@ -1,9 +1,7 @@
-package org.japps.simulator.impl;
+package org.jsmart.simulator.impl;
 
-import org.japps.simulator.base.BaseSimulator;
-import org.japps.simulator.domain.Api;
-import org.japps.simulator.domain.RestResponse;
-import org.simpleframework.http.Method;
+import org.jsmart.simulator.base.BaseSimulator;
+import org.jsmart.simulator.domain.Api;
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
 import org.simpleframework.http.Status;

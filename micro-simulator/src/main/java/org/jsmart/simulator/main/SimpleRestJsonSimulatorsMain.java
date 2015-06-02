@@ -1,7 +1,7 @@
-package org.japps.simulator.main;
+package org.jsmart.simulator.main;
 
-import org.japps.simulator.annotations.ApiRepo;
-import org.japps.simulator.impl.SimpleRestJsonSimulator;
+import org.jsmart.simulator.annotations.ApiRepo;
+import org.jsmart.simulator.impl.SimpleRestJsonSimulator;
 
 /**
  * Created by Siddha on 27/04/2015.

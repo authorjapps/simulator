@@ -1,4 +1,4 @@
-package org.japps.simulator.impl;
+package org.jsmart.simulator.impl;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -7,8 +7,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.japps.simulator.domain.Api;
-import org.japps.simulator.domain.RestResponse;
+import org.jsmart.simulator.domain.Api;
+import org.jsmart.simulator.domain.RestResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

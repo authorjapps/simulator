@@ -1,4 +1,4 @@
-package org.japps.simulator.base;
+package org.jsmart.simulator.base;
 
 import org.simpleframework.http.core.Container;
 import org.simpleframework.http.core.ContainerServer;

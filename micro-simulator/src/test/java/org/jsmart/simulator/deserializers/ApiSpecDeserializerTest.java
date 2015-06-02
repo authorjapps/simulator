@@ -1,8 +1,8 @@
-package org.japps.simulator.deserializers;
+package org.jsmart.simulator.deserializers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.japps.simulator.domain.ApiSpec;
+import org.jsmart.simulator.domain.ApiSpec;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.*;

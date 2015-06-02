@@ -1,9 +1,9 @@
-package org.japps.simulator.utils;
+package org.jsmart.simulator.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
-import org.japps.simulator.domain.ApiSpec;
+import org.jsmart.simulator.domain.ApiSpec;
 
 import java.io.IOException;
 import java.io.Reader;

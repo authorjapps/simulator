@@ -1,4 +1,4 @@
-package org.japps.simulator.domain;
+package org.jsmart.simulator.domain;
 
 /**
  * Created by Siddha on 27/04/2015.

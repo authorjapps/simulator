@@ -1,4 +1,4 @@
-package org.japps.simulator.deserializers;
+package org.jsmart.simulator.deserializers;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -6,9 +6,9 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.japps.simulator.domain.Api;
-import org.japps.simulator.domain.ApiSpec;
-import org.japps.simulator.domain.RestResponse;
+import org.jsmart.simulator.domain.Api;
+import org.jsmart.simulator.domain.ApiSpec;
+import org.jsmart.simulator.domain.RestResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;

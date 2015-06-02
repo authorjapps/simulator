@@ -1,20 +1,20 @@
-package org.japps.simulator.impl;
+package org.jsmart.simulator.impl;
 
 import com.google.classpath.ClassPath;
 import com.google.classpath.ClassPathFactory;
 import com.google.classpath.RegExpResourceFilter;
 import org.apache.commons.lang.StringUtils;
-import org.japps.simulator.annotations.ApiRepo;
-import org.japps.simulator.domain.Api;
-import org.japps.simulator.domain.ApiSpec;
-import org.japps.simulator.utils.SimulatorJsonUtils;
+import org.jsmart.simulator.annotations.ApiRepo;
+import org.jsmart.simulator.domain.Api;
+import org.jsmart.simulator.domain.ApiSpec;
+import org.jsmart.simulator.utils.SimulatorJsonUtils;
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
 import org.simpleframework.http.Status;
 import org.simpleframework.http.core.Container;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.japps.simulator.base.BaseSimulator;
+import org.jsmart.simulator.base.BaseSimulator;
 
 import java.io.IOException;
 import java.io.InputStream;

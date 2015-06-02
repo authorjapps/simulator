@@ -1,7 +1,7 @@
-package org.japps.simulator.domain;
+package org.jsmart.simulator.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.japps.simulator.deserializers.ApiSpecDeserializer;
+import org.jsmart.simulator.deserializers.ApiSpecDeserializer;
 
 import java.util.ArrayList;
 import java.util.List;

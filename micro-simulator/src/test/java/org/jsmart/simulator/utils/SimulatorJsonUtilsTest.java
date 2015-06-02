@@ -1,4 +1,4 @@
-package org.japps.simulator.utils;
+package org.jsmart.simulator.utils;
 
 import org.junit.Test;
 

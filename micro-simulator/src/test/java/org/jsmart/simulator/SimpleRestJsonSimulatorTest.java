@@ -1,4 +1,4 @@
-package org.japps.simulator;
+package org.jsmart.simulator;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -8,7 +8,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.japps.simulator.impl.SimpleRestJsonSimulator;
+import org.jsmart.simulator.impl.SimpleRestJsonSimulator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
