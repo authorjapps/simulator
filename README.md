@@ -1,6 +1,9 @@
-# How to use the simulator?
+# Micro Services REST Simulator
+## How to use the simulator?
 
 ### During unit testing / feature testing :
+(Note: **See "maven-simulator-plugin" for Integration-Testing**)
+
 e.g.
 > While you are in need of an interfacing REST end point but it's not yet developed,
 > then you can simulate this REST end point and do your Unit/Feature testing as below.
@@ -31,7 +34,7 @@ e.g.
 
 * More examples here:
 `````
-- See: Test case: org.japps.simulator.impl.SimpleRestSimulatorTest
+- See: Test case: SimpleRestSimulatorTest
   #willSimulateGETAtRunTimeWithPortAndUrlUsingApiBuilder()
 `````
 
@@ -102,7 +105,7 @@ Put your simulation Request URL and Response here in the respective json file or
 - Now to simulate this end-point: GET: http://localhost:9999/customers/1
 
 Put the following JSON into the simulator json file above.
-> Then run the "org.japps.simulator.main.SimpleRestJsonSimulatorsMain" 
+> Then run the "SimpleRestJsonSimulatorsMain"
 > or new SimpleRestJsonSimulatorsMain(PORT).start(); 
 
 > That's it. The REST api is ready to use.

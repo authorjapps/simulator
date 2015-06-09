@@ -24,6 +24,10 @@ target/
 .idea
 *.iml
 
+# Java Docs for apis
+    ## setup pom.xml, settings.xml
+    ## setup PGP sing/private/public details
+    ## check mvn commands for release
 # Error code simulator handling
 # Readme file with java DSL, JSON DSL
 # Regex in the Request Handling
