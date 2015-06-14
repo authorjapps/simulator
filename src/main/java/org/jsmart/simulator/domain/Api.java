@@ -1,7 +1,9 @@
 package org.jsmart.simulator.domain;
 
 /**
- * Created by Siddha on 25/04/2015.
+ * A single REST api representation.
+ *
+ * @author Siddha.
  */
 public class Api {
     private String name;
@@ -9,6 +11,12 @@ public class Api {
     private String url;
     private RestResponse response;
 
+    /**
+     * @param name the short description about the REST api
+     * @param operation one of the http methods e.g. GET, PUT, POST, DELETE, HEAD
+     * @param url the REST end point being simulated
+     * @param response the REST response expected from the end point
+     */
     public Api(String name, String operation, String url, RestResponse response) {
         this.name = name;
         this.operation = operation;

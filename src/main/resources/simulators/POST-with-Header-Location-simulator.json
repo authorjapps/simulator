@@ -12,9 +12,12 @@
       "response": {
         "status": 201,
         "headers": {
-          "Location": "/orders/10019"
+          "Location": "http://localhost:9901/jsmart/orders/10019"
         },
         "body": {
+          "id": 10019,
+          "customerId": 1,
+          "item": "Mobile Phone"
         }
       }
     }

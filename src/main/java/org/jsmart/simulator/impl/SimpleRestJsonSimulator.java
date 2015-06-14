@@ -36,6 +36,12 @@ public class SimpleRestJsonSimulator extends BaseSimulator implements Container{
     private String packageName;
     List<ApiSpec> apiSpecRequestResponseList;
 
+    /**
+     * The port at which the simulator will run. The supplied port number should be different from
+     * any other port at which other applications are running.
+     *
+     * @param port
+     */
     public SimpleRestJsonSimulator(int port) {
         super(port);
         setActualContainer(this);

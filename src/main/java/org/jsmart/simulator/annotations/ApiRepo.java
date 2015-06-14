@@ -6,7 +6,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by Siddha on 25/04/2015.
+ * The folder name where the simulator jsons reside. Usually the folder is maintained
+ * under src/resources. But it can be configured to point to any custom folder for
+ * project or developer convenience.
+ *
+ * @author Siddha
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

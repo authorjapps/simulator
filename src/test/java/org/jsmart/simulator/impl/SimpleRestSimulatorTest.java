@@ -7,6 +7,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.jsmart.simulator.base.Simulator;
 import org.jsmart.simulator.domain.Api;
 import org.jsmart.simulator.domain.RestResponse;
 import org.junit.After;
@@ -23,7 +24,7 @@ import static org.junit.Assert.assertThat;
 public class SimpleRestSimulatorTest {
 
     public static final int HTTP_PORT = 9090;
-    private SimpleRestSimulator simulator;
+    private Simulator simulator;
 
     @Before
     public void startSimulator() {
@@ -43,14 +44,14 @@ public class SimpleRestSimulatorTest {
                 "    \"age\": 0,\n" +
                 "    \"isAdult\": false\n" +
                 "}";
-        Api api = new Api(
+        Api restApi = new Api(
                 "Get Customers By Id API",
                 Method.GET,
                 endPoint,
                 new RestResponse("{\"accept-language\": \"en_gb\"}", 200, requiredResponse)
         );
         simulator = new SimpleRestSimulator(HTTP_PORT)
-                .withApi(api)
+                .restApi(restApi)
                 .run();
 
         // e.g. http://localhost:9090/customers/1

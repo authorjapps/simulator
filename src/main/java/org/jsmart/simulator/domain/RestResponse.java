@@ -8,6 +8,13 @@ public class RestResponse {
     private int status;
     private String body;
 
+    /**
+     * The object which encapsulates the REST response.
+     *
+     * @param headers http headers and custom headers in json format
+     * @param status http status code of the response
+     * @param body the response entity in a json or string or xml format
+     */
     public RestResponse(String headers, int status, String body) {
         this.headers = headers;
         this.status = status;

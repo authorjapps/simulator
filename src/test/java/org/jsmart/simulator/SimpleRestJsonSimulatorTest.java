@@ -8,6 +8,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.jsmart.simulator.base.Simulator;
 import org.jsmart.simulator.impl.SimpleRestJsonSimulator;
 import org.junit.After;
 import org.junit.Before;
@@ -28,11 +29,11 @@ import static org.junit.Assert.assertThat;
 
 public class SimpleRestJsonSimulatorTest {
     public static final int HTTP_PORT = 9901;
-    private final SimpleRestJsonSimulator simulator = new SimpleRestJsonSimulator(HTTP_PORT);
+    private final Simulator simulator = new SimpleRestJsonSimulator(HTTP_PORT);
 
     @Before
     public void startSimulator() {
-        simulator.start();
+        simulator.run();
     }
 
     @After
@@ -149,11 +150,11 @@ public class SimpleRestJsonSimulatorTest {
         InputStream content = entity.getContent();
         String responseString = IOUtils.toString(content, "UTF-8");
 
-        String expected = "{}";
+        String expected = "{\"id\":10019,\"customerId\":1,\"item\":\"Mobile Phone\"}";
         assertThat("Response did not match with actual.", responseString , is(expected));
 
         String location = response.getFirstHeader("Location").getValue();
-        assertThat("Location header did not match", location, is("/orders/10019"));
+        assertThat("Location header did not match", location, is("http://localhost:9901/jsmart/orders/10019"));
 
         assertThat("Status code was not 201.", response.getStatusLine().getStatusCode(), is(201));
     }

@@ -1,6 +1,7 @@
 package org.jsmart.simulator.impl;
 
 import org.jsmart.simulator.base.BaseSimulator;
+import org.jsmart.simulator.base.Simulator;
 import org.jsmart.simulator.domain.Api;
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
@@ -57,7 +58,7 @@ public class SimpleRestSimulator extends BaseSimulator implements Container {
         }
     }
 
-    private void sendResponse(Request request, Response response, PrintStream body, String responseString) {
+    /*private void sendResponse(Request request, Response response, PrintStream body, String responseString) {
         for (Api api : apiList) {
             if (request.getTarget().equals(api.getUrl()) && request.getMethod().equals(api.getOperation())) {
                 response.setStatus(Status.getStatus(api.getResponse().getStatus()));
@@ -68,7 +69,7 @@ public class SimpleRestSimulator extends BaseSimulator implements Container {
         logger.info("\n# Response Status: " + response.getCode());
         logger.info("\n# Response body: \n" + responseString);
         body.print(responseString);
-    }
+    }*/
 
     private PrintStream getPrintStreamForResponse(Response response) throws IOException {
         PrintStream body;
@@ -90,7 +91,12 @@ public class SimpleRestSimulator extends BaseSimulator implements Container {
         return this;
     }
 
-    public SimpleRestSimulator run() {
+    public SimpleRestSimulator restApi(Api api) {
+        return withApi(api);
+    }
+
+    @Override
+    public Simulator run() {
         this.start();
         return this;
     }

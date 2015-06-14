@@ -13,9 +13,9 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 
 /**
- * Created by Siddha on 23/04/2015.
+ * @author Siddha
  */
-public class BaseSimulator  {
+public class BaseSimulator implements Simulator {
     private static final Logger logger = LoggerFactory.getLogger(BaseSimulator.class);
 
     private static int port;
@@ -24,10 +24,19 @@ public class BaseSimulator  {
     private String simulatorName;
     private Container actualContainer;
 
+    /**
+     * The port at which the simulator will run. The supplied port number should be different from
+     * any other port at which other applications are running.
+     *
+     * @param port
+     */
     public BaseSimulator(int port) {
         this.port = port;
     }
 
+    /**
+     * Starts the simulator at the supplied port exposing the end point.
+     */
     public void start() {
         try {
             Container container = this.getActualContainer();
@@ -43,6 +52,10 @@ public class BaseSimulator  {
         }
     }
 
+    /**
+     * Stops the simulator.
+     */
+    @Override
     public void stop() {
         try {
             connection.close();
@@ -53,6 +66,7 @@ public class BaseSimulator  {
 
     }
 
+    @Override
     public int getPort() {
         return socketAddress.getPort();
     }
@@ -71,5 +85,16 @@ public class BaseSimulator  {
 
     public void setActualContainer(Container actualContainer) {
         this.actualContainer = actualContainer;
+    }
+
+    /**
+     * Runs the simulator and returns the current state of the simulator.
+     *
+     * @return
+     */
+    @Override
+    public Simulator run() {
+        start();
+        return this;
     }
 }

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Siddha on 25/04/2015.
+ * @author Siddha
  */
 public class SimulatorJsonUtils {
 
@@ -56,11 +56,9 @@ public class SimulatorJsonUtils {
                     new TypeReference<HashMap<String,String>>(){});
 
             System.out.println(map);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public static String readValue(String jsonString, String key) {
