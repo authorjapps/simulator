@@ -10,27 +10,24 @@ e.g.
 
 ```````
     String endPoint = "/customers/1";
-    String requiredResponse = "{\n" +
-                "    \"id\": 1,\n" +
-                "    \"age\": 0,\n" +
-                "    \"isAdult\": false\n" +
+    String requiredResponse = "{" +
+                "    \"id\": 1," +
+                "    \"age\": 0," +
+                "    \"isAdult\": false" +
                 "}";
 
-    Api api = new Api(
-          //Short details about the api
-          "Get Customers By Id API", 
-          //HTTP method
-          Method.GET,
-          //REST end point url
-          "/customers/1",
-          //Headers, Status code, Response
-          new RestResponse("{\"Locale\": \"en_gb\"}", 200, requiredResponse)
-        );
+   RestApi api = new RestApi()
+                .name("Get Customers By Id API")
+                .operation(Method.GET)
+                .url("/customers/1")
+                .response(new RestResponse("{\"Locale\": \"en_gb\"}", 200, requiredResponse))
+                .build();
+                
     simulator = new SimpleRestSimulator(HTTP_PORT)
-            .withApi(api)
+            .restApi(api)
             .run();
 ``````
-> Now the end point "/customers/1" with method "GET" is ready to use.
+> Now the REST end point "/customers/1" with method "GET" is ready to use.
 
 * More examples here:
 `````
@@ -62,19 +59,20 @@ stopped.
 
 ### To simulate more than one REST end points see:
 ````` 
-String endPoint1 = "/customers/1";
-        String endPoint2 = "/orders/1";
-
+        String endPoint1 = "/customers/1";
         String customerResponse = "{\n" +
                 "    \"id\": 1,\n" +
                 "    \"age\": 0,\n" +
                 "    \"isAdult\": false\n" +
                 "}";
+
+        String endPoint2 = "/orders/1";
         String orderResponse = "{\n" +
                 "    \"id\": 1,\n" +
                 "    \"customerId\": 1,\n" +
                 "    \"quantity\": 60\n" +
                 "}";
+
         Api apiCustomer = new Api(
                 "Get Customer By Id API",
                 Method.GET,
@@ -87,7 +85,7 @@ String endPoint1 = "/customers/1";
                 endPoint2,
                 new RestResponse(null, 200, orderResponse)
         );
-        simulator = new SimpleRestSimulator(9090) //any port
+        simulator = new SimpleRestSimulator(HTTP_PORT)
                 .withApi(apiCustomer)
                 .withApi(apiOrder)
                 .run();
@@ -99,7 +97,7 @@ new SimpleRestJsonSimulatorsMain(PORT).start();
 `````
 
 ### How it works?
-Put your simulation Request URL and Response here in the respective json file or create a new one if not present.
+Put your simulation Request URL and Response here in the respective json file or create a new file if not present.
 - Path: src/main/resources/simulators
 - e.g: simulators/customers-simulator.json
 - Now to simulate this end-point: GET: http://localhost:9999/customers/1
@@ -110,7 +108,7 @@ Put the following JSON into the simulator json file above.
 
 > That's it. The REST api is ready to use.
 
-Sample content of the **customers-simulator.json**
+Json structure is as below. Sample content of the **customers-simulator.json**
 `````
 {
   "name" : "Customers-Simulator",
@@ -156,4 +154,5 @@ Sample content of the **customers-simulator.json**
 `````
 
 Now:
+Both end end points are ready to use. You can put as many end points as you need.
 > Using your browser or REST client invoke: http://localhost:9999/customers/2 and see the response.
