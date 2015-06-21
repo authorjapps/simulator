@@ -21,7 +21,7 @@ public class ApiSpec {
      */
     public ApiSpec(String name, List<Api> apis) {
         this.name = name;
-        this.apis = new ArrayList<>(apis);
+        this.apis = new ArrayList<Api>(apis);
     }
 
     public String getName() {

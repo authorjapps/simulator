@@ -22,7 +22,7 @@ public class ApiSpecDeserializer extends JsonDeserializer<ApiSpec> {
         final JsonNode node = jp.getCodec().readTree(jp);
 
         final String name = node.get("name").asText();
-        final List<Api> apis = new ArrayList<>();
+        final List<Api> apis = new ArrayList<Api>();
 
         final ArrayNode apisNode = (ArrayNode) node.get("apis");
         for(JsonNode apiNode : apisNode) {

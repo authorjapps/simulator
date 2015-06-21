@@ -21,7 +21,7 @@ import java.util.List;
 public class SimpleRestSimulator extends BaseSimulator implements Container {
     private static final Logger logger = LoggerFactory.getLogger(SimpleRestSimulator.class);
 
-    private List<Api> apiList = new ArrayList<>();
+    private List<Api> apiList = new ArrayList<Api>();
     private Api api;
 
     public List<Api> getApiList() {

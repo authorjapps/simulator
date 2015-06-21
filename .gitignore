@@ -25,7 +25,6 @@ target/
 *.iml
 
 # RestResponse builder
-# Use Unirest client to avoid biolerplate code
 # Compile with Java 6/Java5 in this version.
 # JSON Regex and Smart expression like $RANDOM_INT, $RANDOM_LONG
 # Readme for: JSON files in another project

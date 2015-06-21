@@ -1,5 +1,6 @@
 package org.jsmart.simulator.utils;
 
+import org.hamcrest.core.Is;
 import org.junit.Test;
 
 import java.util.Map;
@@ -15,7 +16,7 @@ public class SimulatorJsonUtilsTest {
                 "          \"Location\" : \"/customers/10000054\"\n" +
                 "        }";
         Map map = SimulatorJsonUtils.getAsMap(headerString);
-        assertThat("Location header did not match", map.get("Location"), is("/customers/10000054"));
+        assertThat("Location header did not match", map.get("Location"), Is.<Object>is("/customers/10000054"));
     }
 
     @Test

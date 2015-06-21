@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jsmart.simulator.annotations.ApiRepo;
 import org.jsmart.simulator.domain.Api;
 import org.jsmart.simulator.domain.ApiSpec;
+import org.jsmart.simulator.enums.HttpMethod;
 import org.jsmart.simulator.utils.SimulatorJsonUtils;
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
@@ -112,19 +113,19 @@ public class SimpleRestJsonSimulator extends BaseSimulator implements Container{
     private String getSimulatedResponse(Request request, Response response) {
         String notFoundMessage = request.getTarget() + " (404)Simulator did not process the request as it did not find resource for GET, POST or PUT.";
 
-        switch( request.getMethod() ) {
-            case "GET":
+        switch(HttpMethod.valueOf(request.getMethod()) ) {
+            case GET:
                 return respondGET(request.getTarget(), response, notFoundMessage);
 
-            case "POST":
+            case POST:
                 return respondPOST(request.getTarget(), response, notFoundMessage);
 
-            case "PUT":
+            case PUT:
                 //TODO
                 notFoundMessage = "PUT: TOBE implemented.";
                 break;
 
-            case "DELETE":
+            case DELETE:
                 //TODO
                 notFoundMessage = "DELETE: TOBE implemented.";
                 break;
@@ -174,7 +175,7 @@ public class SimpleRestJsonSimulator extends BaseSimulator implements Container{
         }
 
         // deserialize the ApiSpec
-        List<ApiSpec> apiSpecList = new ArrayList<>();
+        List<ApiSpec> apiSpecList = new ArrayList<ApiSpec>();
         for (String resourceName : allSimulationFiles) {
             try {
                 InputStream stream = jvmClassPath.getResourceAsStream(resourceName);
