@@ -91,13 +91,16 @@ public class SimpleRestSimulator extends BaseSimulator implements Container {
         return this;
     }
 
+    @Override
     public SimpleRestSimulator restApi(Api api) {
         return withApi(api);
     }
 
     @Override
     public Simulator run() {
-        this.start();
+        if(isRunning() == false) {
+            this.start();
+        }
         return this;
     }
 }

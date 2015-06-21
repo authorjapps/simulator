@@ -24,11 +24,16 @@ target/
 .idea
 *.iml
 
+# RestResponse builder
+# Use Unirest client to avoid biolerplate code
+# Compile with Java 6/Java5 in this version.
+# JSON Regex and Smart expression like $RANDOM_INT, $RANDOM_LONG
+# Readme for: JSON files in another project
+# Api, RestApi builder withMethod()
+# JSON and POJO based simulation
+# Maven plugin
+# Annotation based Simulation
 # Implement PUT, DELETE
-# Java Docs for apis
-    ## setup pom.xml, settings.xml
-    ## setup PGP sing/private/public details
-    ## check mvn commands for release
 # Error code simulator handling
 # Readme file with java DSL, JSON DSL
 # Regex in the Request Handling

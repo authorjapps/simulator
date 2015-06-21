@@ -1,7 +1,7 @@
 package org.jsmart.simulator.domain;
 
 /**
- * Created by Siddha on 27/04/2015.
+ * @author Siddha
  */
 public class RestResponse {
     private String headers;
@@ -9,7 +9,7 @@ public class RestResponse {
     private String body;
 
     /**
-     * The object which encapsulates the REST response.
+     * This object encapsulates the REST response.
      *
      * @param headers http headers and custom headers in json format
      * @param status http status code of the response

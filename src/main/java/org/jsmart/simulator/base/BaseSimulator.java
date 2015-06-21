@@ -1,5 +1,6 @@
 package org.jsmart.simulator.base;
 
+import org.jsmart.simulator.domain.Api;
 import org.simpleframework.http.core.Container;
 import org.simpleframework.http.core.ContainerServer;
 import org.simpleframework.transport.Server;
@@ -23,6 +24,7 @@ public class BaseSimulator implements Simulator {
     private InetSocketAddress socketAddress;
     private String simulatorName;
     private Container actualContainer;
+    private boolean isRunning;
 
     /**
      * The port at which the simulator will run. The supplied port number should be different from
@@ -44,9 +46,10 @@ public class BaseSimulator implements Simulator {
             connection = new SocketConnection(server);
             SocketAddress address = new InetSocketAddress(port);
             socketAddress =(InetSocketAddress) connection.connect(address);
+            this.isRunning = true;
             logger.info("\n#Simulator: " + this.getSimulatorName() +
-                    "\n#started. " +
-                    "\nListening at port: " + socketAddress.getPort());
+                        "\n#started. " +
+                        "\nListening at port: " + socketAddress.getPort());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -59,11 +62,22 @@ public class BaseSimulator implements Simulator {
     public void stop() {
         try {
             connection.close();
+            this.isRunning = false;
             logger.info("\n#" + getSimulatorName() + "\nstopped.");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Override
+    public boolean isRunning() {
+        return this.isRunning;
+    }
+
+    @Override
+    public Simulator restApi(Api apiOrder) {
+        return this;
     }
 
     @Override
