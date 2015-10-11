@@ -1,10 +1,11 @@
-# Micro Services REST Simulator
+# Micro Services REST Simulator 1.1.3-SNAPSHOT wip-
 ## How to use the simulator?
 
 ### During unit testing / feature testing :
 (Note: **See "maven-simulator-plugin" for Integration-Testing**)
 
 e.g.
+#### GET
 > While you are in need of an interfacing REST end point but it's not yet developed,
 > then you can simulate this REST end point and do your Unit/Feature testing as below.
 
@@ -28,6 +29,21 @@ e.g.
             .run();
 ``````
 > Now the REST end point "/customers/1" with method "GET" is ready to use.
+
+
+e.g.
+#### POST 
+String requiredResponse = "{\"id\": 1}";
+        RestApi api = new RestApi()
+                .name("Create Customer")
+                .operation(Method.POST)
+                .url("/customers")
+                .response(new RestResponse("{\"accept-language\": \"en_gb\"}", 201, requiredResponse))
+                .build();
+
+        simulator = new SimpleRestSimulator(HTTP_PORT)
+                .withApi(api)
+                .run();
 
 * More examples here:
 `````
@@ -111,43 +127,43 @@ Put the following JSON into the simulator json file above.
 Json structure is as below. Sample content of the **customers-simulator.json**
 `````
 {
-  "name" : "Customers-Simulator",
-  "apis" : [
+    "name" : "Customers-Simulator",
+    "apis" : [
     {
-      "name": "Get Customer by Id",
-      "operation": "GET",
-      "url": "/customers/1",
-      "response": {
-        "status": 200,
-        "body": {
-          "id": 1,
-          "name": "Kate",
-          "sex": "Female"
+        "name": "Get Customer by Id",
+        "operation": "GET",
+        "url": "/customers/1",
+        "response": {
+          "status": 200,
+          "body": {
+              "id": 1,
+              "name": "Kate",
+              "sex": "Female"
+          }
         }
-      }
     },
     {
-      "name" : "Get Resources List",
-      "operation" : "GET",
-      "url" : "/customers",
-      "response" : {
-        "headers" : {
-          "language" : "en_GB"
-        },
-        "status" : 200,
-        "body" : [
-          {
-            "id": 1,
-            "name": "Kate",
-            "sex": "Female"
+        "name" : "Get Resources List",
+        "operation" : "GET",
+        "url" : "/customers",
+        "response" : {
+          "headers" : {
+            "language" : "en_GB"
           },
-          {
-            "id": 2,
-            "name": "Rowland",
-            "sex": "Male"
-          }
-        ]
-      }
+          "status" : 200,
+          "body" : [
+            {
+              "id": 1,
+              "name": "Kate",
+              "sex": "Female"
+            },
+            {
+              "id": 2,
+              "name": "Rowland",
+              "sex": "Male"
+            }
+          ]
+        }
     }
   ]
 }
