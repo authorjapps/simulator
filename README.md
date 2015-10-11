@@ -1,4 +1,4 @@
-# Micro Services REST Simulator
+# Micro Services REST Simulator 1.1.3-SNAPSHOT wip-
 ## How to use the simulator?
 
 ### During unit testing / feature testing :
