@@ -40,6 +40,7 @@ public class BaseSimulator implements Simulator {
      * Starts the simulator at the supplied port exposing the end point.
      */
     public void start() {
+        logger.info("\n###starting...");
         try {
             Container container = this.getActualContainer();
             Server server = new ContainerServer(container);
@@ -61,6 +62,7 @@ public class BaseSimulator implements Simulator {
     @Override
     public void stop() {
         try {
+            logger.info("\n###stopping...");
             connection.close();
             this.isRunning = false;
             logger.info("\n#" + getSimulatorName() + "\nstopped.");
