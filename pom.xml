@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>micro-simulator</artifactId>
-    <groupId>org.jsmart.simulator</groupId>
+    <groupId>org.jsmart</groupId>
     <version>1.1.4-SNAPSHOT</version>
 
     <packaging>jar</packaging>
