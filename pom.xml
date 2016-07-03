@@ -9,7 +9,7 @@
 
     <artifactId>micro-simulator</artifactId>
     <groupId>org.jsmart.simulator</groupId>
-    <version>1.1.3</version>
+    <version>1.1.4-SNAPSHOT</version>
 
     <packaging>jar</packaging>
     <name>Micro Services Simulator</name>
