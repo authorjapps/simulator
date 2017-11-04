@@ -1,6 +1,73 @@
 # Micro Services REST Simulator
 ## How to use the simulator?
 
+
+### To run the predefined(in json files) simulator(s) as main.
+`````
+new SimpleRestJsonSimulatorsMain(PORT).start();
+`````
+
+### How it works?
+Put your simulation Request URL and Response here in the respective json file or create a new file if not present.
+- Path: src/main/resources/simulators
+- e.g: simulators/customers-simulator.json
+- Now to simulate this end-point: GET: http://localhost:9999/customers/1
+
+Put the following JSON into the simulator json file above.
+> Then run the "SimpleRestJsonSimulatorsMain"
+> or new SimpleRestJsonSimulatorsMain(PORT).start(); 
+
+> That's it. The REST api is ready to use.
+
+Json structure is as below. Sample content of the **customers-simulator.json**
+`````
+{
+    "name" : "Customers-Simulator",
+    "apis" : [
+    {
+        "name": "Get Customer by Id",
+        "operation": "GET",
+        "url": "/customers/1",
+        "response": {
+          "status": 200,
+          "body": {
+              "id": 1,
+              "name": "Kate",
+              "sex": "Female"
+          }
+        }
+    },
+    {
+        "name" : "Get Resources List",
+        "operation" : "GET",
+        "url" : "/customers",
+        "response" : {
+          "headers" : {
+            "language" : "en_GB"
+          },
+          "status" : 200,
+          "body" : [
+            {
+              "id": 1,
+              "name": "Kate",
+              "sex": "Female"
+            },
+            {
+              "id": 2,
+              "name": "Rowland",
+              "sex": "Male"
+            }
+          ]
+        }
+    }
+  ]
+}
+`````
+
+Now:
+Both end end points are ready to use. You can put as many end points as you need.
+> Using your browser or REST client invoke: http://localhost:9999/customers/1 and see the response.
+
 ### During unit testing / feature testing :
 (Note: **See "maven-simulator-plugin" for Integration-Testing**)
 
@@ -106,69 +173,3 @@ stopped.
                 .withApi(apiOrder)
                 .run();
 `````
-
-### To run the predefined(in json files) simulator(s) as main.
-`````
-new SimpleRestJsonSimulatorsMain(PORT).start();
-`````
-
-### How it works?
-Put your simulation Request URL and Response here in the respective json file or create a new file if not present.
-- Path: src/main/resources/simulators
-- e.g: simulators/customers-simulator.json
-- Now to simulate this end-point: GET: http://localhost:9999/customers/1
-
-Put the following JSON into the simulator json file above.
-> Then run the "SimpleRestJsonSimulatorsMain"
-> or new SimpleRestJsonSimulatorsMain(PORT).start(); 
-
-> That's it. The REST api is ready to use.
-
-Json structure is as below. Sample content of the **customers-simulator.json**
-`````
-{
-    "name" : "Customers-Simulator",
-    "apis" : [
-    {
-        "name": "Get Customer by Id",
-        "operation": "GET",
-        "url": "/customers/1",
-        "response": {
-          "status": 200,
-          "body": {
-              "id": 1,
-              "name": "Kate",
-              "sex": "Female"
-          }
-        }
-    },
-    {
-        "name" : "Get Resources List",
-        "operation" : "GET",
-        "url" : "/customers",
-        "response" : {
-          "headers" : {
-            "language" : "en_GB"
-          },
-          "status" : 200,
-          "body" : [
-            {
-              "id": 1,
-              "name": "Kate",
-              "sex": "Female"
-            },
-            {
-              "id": 2,
-              "name": "Rowland",
-              "sex": "Male"
-            }
-          ]
-        }
-    }
-  ]
-}
-`````
-
-Now:
-Both end end points are ready to use. You can put as many end points as you need.
-> Using your browser or REST client invoke: http://localhost:9999/customers/2 and see the response.
