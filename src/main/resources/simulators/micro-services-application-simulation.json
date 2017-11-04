@@ -1,0 +1,129 @@
+{
+  "name": "MS-Application-Simulator",
+  "apis": [
+    {
+      "name": "Get referral by referralId",
+      "operation": "GET",
+      "url": "/application-service/referral/1",
+      "response": {
+        "body": {
+          "id": 1,
+          "receivedDate": 142911313300099999,
+          "numberInGroup": 0,
+          "asf1Received": false,
+          "recentAccomodationTypeId": 1,
+          "applicationStatusId": 1,
+          "asylumSeeker": false
+        }
+      }
+    },
+    {
+      "name": "Get referral by referralId With Special Char",
+      "operation": "GET",
+      "url": "/application-service/referral/1/special",
+      "response": {
+        "body": {
+          "id": 1,
+          "receivedDate": 142911313300099999,
+          "numberInGroup": 0,
+          "asf1Received": false,
+          "recentAccomodationTypeId": 1,
+          "applicationStatusId": 1,
+          "asylumSeeker": "something� �"
+        }
+      }
+    },
+    {
+      "name": "Get referral by referralId With Special Char-Tony",
+      "operation": "GET",
+      "url": "/identitymanagement-services/widgets/biographics?internalPersonHandle=999",
+      "response": {
+        "body": {
+          "title": null,
+          "familyName": null,
+          "fullName": "John Smith� ",
+          "gender": "male",
+          "dayOfBirth": "12",
+          "monthOfBirth": "04",
+          "yearOfBirth": "1980",
+          "photoUrl": null,
+          "nationality": "British",
+          "placefBirth": null,
+          "dateOfBirth": null,
+          "passportDocNumber": "321654987",
+          "language": null
+        }
+      }
+    },
+    {
+      "name": "Get referral by referralId",
+      "operation": "GET",
+      "url": "/application-service/referrals",
+      "response": {
+        "headers": {
+          "language": "en_GB"
+        },
+        "status": 200,
+        "body": [
+          {
+            "id": 1,
+            "receivedDate": 1429113133000,
+            "numberInGroup": 0,
+            "asf1Received": false,
+            "recentAccomodationTypeId": 1,
+            "applicationStatusId": 1,
+            "asylumSeeker": false
+          },
+          {
+            "id": 2,
+            "receivedDate": 1429113133000,
+            "numberInGroup": 0,
+            "asf1Received": false,
+            "recentAccomodationTypeId": 1,
+            "applicationStatusId": 1,
+            "asylumSeeker": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "Get a Referral by serviceId",
+      "operation": "GET",
+      "url": "/application-service/referrals/homeDelivery/10000054",
+      "response": {
+        "status": 200,
+        "body": {
+          "id": 1,
+          "serviceId": 10000054,
+          "numberInGroup": 0,
+          "asf1Received": false,
+          "recentAccomodationTypeId": 1,
+          "asylumSeeker": false
+        }
+      }
+    },
+    {
+      "name": "Get a People information",
+      "operation": "GET",
+      "url": "/people/100001",
+      "response": {
+        "status": 200,
+        "body": {
+          "id": 100001,
+          "name": "Alex"
+        }
+      }
+    },
+    {
+      "name": "Create a Service Delivery by POST",
+      "operation": "POST",
+      "url": "/home-deliveries/2",
+      "response": {
+        "status": 201,
+        "body": {
+          "id": 2
+        }
+      }
+    }
+  ]
+}

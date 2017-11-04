@@ -1,0 +1,211 @@
+{
+  "name": "Micro-Service-home-delivery-Management-Simulator",
+  "apis": [
+    {
+      "name": "Creates a homeDelivery given the Product, details",
+      "operation": "POST",
+      "url": "/home-delivery/home-deliveries",
+      "request": {
+        "userId": "Dianne",
+        "productId": 100,
+        "personId": 1001,
+        "roleId": 1
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Location": "/home-delivery/home-deliveries/10000054"
+        },
+        "body": {
+        }
+      }
+    },
+    {
+      "name": "Get Home Deliveries for a given personId",
+      "operation": "GET",
+      "url": "/home-delivery/home-deliveries/person/3001",
+      "response": {
+        "status": 200,
+        "body": [
+            {
+              "id": 10000001,
+              "homeHandleSpace": "CID_CASE_ID",
+              "homeHandleValue": "test_cid_case_id_value",
+              "homeDeliveryType": {
+                "id": 3001,
+                "code": "AS_CLAIM",
+                "description": "Asylum Claim",
+                "longDescription": "Asylum Claim"
+              },
+              "homeDeliveryStatus": {
+                "id": 3008,
+                "code": "IN_PROGRESS",
+                "description": "Service Delivery in progress",
+                "longDescription": "Service Delivery in progress"
+              },
+              "involvements": [
+                {
+                  "id": 10000002,
+                  "homeRoleType": {
+                    "id": 3012,
+                    "code": "APPLICANT",
+                    "description": "Main Applicant",
+                    "longDescription": "Main Applicant"
+                  },
+                  "person": {
+                    "personId": 3001,
+                    "recentBiographics": [
+                    ],
+                    "createdDate": "2015-08-17T08:52:55Z"
+                  },
+                  "createdDate": "2015-08-17T08:52:55Z",
+                  "lastUpdated": "2015-08-17T08:52:55Z"
+                }
+              ],
+              "attributes": [
+              ],
+              "homeDeliveryProcesses": [
+                {
+                  "id": 10000001,
+                  "homeDeliveryStage": {
+                    "id": 1,
+                    "code": "REGISTRATION",
+                    "description": "IPF Vertical (Stage)",
+                    "longDescription": "This should be from Product Catalogue"
+                  },
+                  "processStatus": {
+                    "id": 3020,
+                    "code": "NEW",
+                    "description": "New process",
+                    "longDescription": "New process"
+                  },
+                  "createdDate": "2015-08-17T08:52:55Z",
+                  "lastUpdated": "2015-08-17T08:52:55Z"
+                }
+              ],
+              "createdDate": "2015-08-17T08:52:55Z",
+              "lastUpdated": "2015-08-17T08:52:55Z"
+            },
+            {
+              "id": 10000002,
+              "homeHandleSpace": "CID_CASE_ID",
+              "homeHandleValue": "test_cid_case_id_value",
+              "homeDeliveryType": {
+                "id": 3001,
+                "code": "AS_CLAIM",
+                "description": "Asylum Claim",
+                "longDescription": "Asylum Claim"
+              },
+              "homeDeliveryStatus": {
+                "id": 3008,
+                "code": "IN_PROGRESS",
+                "description": "Service Delivery in progress",
+                "longDescription": "Service Delivery in progress"
+              },
+              "involvements": [
+                {
+                  "id": 10000004,
+                  "homeRoleType": {
+                    "id": 3012,
+                    "code": "APPLICANT",
+                    "description": "Main Applicant",
+                    "longDescription": "Main Applicant"
+                  },
+                  "person": {
+                    "personId": 3001,
+                    "recentBiographics": [
+                    ],
+                    "createdDate": "2015-08-17T08:53:44Z"
+                  },
+                  "createdDate": "2015-08-17T08:53:44Z",
+                  "lastUpdated": "2015-08-17T08:53:44Z"
+                }
+              ],
+              "attributes": [
+              ],
+              "homeDeliveryProcesses": [
+                {
+                  "id": 10000002,
+                  "homeDeliveryStage": {
+                    "id": 1,
+                    "code": "REGISTRATION",
+                    "description": "IPF Vertical (Stage)",
+                    "longDescription": "This should be from Product Catalogue"
+                  },
+                  "processStatus": {
+                    "id": 3020,
+                    "code": "NEW",
+                    "description": "New process",
+                    "longDescription": "New process"
+                  },
+                  "createdDate": "2015-08-17T08:53:44Z",
+                  "lastUpdated": "2015-08-17T08:53:44Z"
+                }
+              ],
+              "createdDate": "2015-08-17T08:53:44Z",
+              "lastUpdated": "2015-08-17T08:53:44Z"
+            },
+            {
+              "id": 10000003,
+              "homeHandleSpace": "CID_CASE_ID",
+              "homeHandleValue": "test_cid_case_id_value",
+              "homeDeliveryType": {
+                "id": 3001,
+                "code": "AS_CLAIM",
+                "description": "Asylum Claim",
+                "longDescription": "Asylum Claim"
+              },
+              "homeDeliveryStatus": {
+                "id": 3008,
+                "code": "IN_PROGRESS",
+                "description": "Service Delivery in progress",
+                "longDescription": "Service Delivery in progress"
+              },
+              "involvements": [
+                {
+                  "id": 10000006,
+                  "homeRoleType": {
+                    "id": 3012,
+                    "code": "APPLICANT",
+                    "description": "Main Applicant",
+                    "longDescription": "Main Applicant"
+                  },
+                  "person": {
+                    "personId": 3001,
+                    "recentBiographics": [
+                    ],
+                    "createdDate": "2015-08-17T08:56:14Z"
+                  },
+                  "createdDate": "2015-08-17T08:56:14Z",
+                  "lastUpdated": "2015-08-17T08:56:14Z"
+                }
+              ],
+              "attributes": [
+              ],
+              "homeDeliveryProcesses": [
+                {
+                  "id": 10000003,
+                  "homeDeliveryStage": {
+                    "id": 1,
+                    "code": "REGISTRATION",
+                    "description": "IPF Vertical (Stage)",
+                    "longDescription": "This should be from Product Catalogue"
+                  },
+                  "processStatus": {
+                    "id": 3020,
+                    "code": "NEW",
+                    "description": "New process",
+                    "longDescription": "New process"
+                  },
+                  "createdDate": "2015-08-17T08:56:14Z",
+                  "lastUpdated": "2015-08-17T08:56:14Z"
+                }
+              ],
+              "createdDate": "2015-08-17T08:56:14Z",
+              "lastUpdated": "2015-08-17T08:56:14Z"
+            }
+          ]
+      }
+    }
+  ]
+}

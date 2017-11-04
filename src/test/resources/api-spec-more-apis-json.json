@@ -1,33 +1,41 @@
 {
-  "name": "Customers-Order-Simulator",
+  "name": "MS-Application-Simulator",
   "apis": [
     {
-      "name": "Get Customers by Id 1",
+      "name": "Get referral by referralId",
       "operation": "GET",
-      "url": "/customers/1",
+      "url": "/referral/1",
       "response": {
         "header": {
         },
         "status": 200,
         "body": {
           "id": 1,
-          "name": "Kate",
-          "sex": "Female"
+          "receivedDate": 1429113133000,
+          "numberInGroup": 0,
+          "asf1Received": false,
+          "recentAccomodationTypeId": 1,
+          "applicationStatusId": 1,
+          "asylumSeeker": false
         }
       }
     },
     {
-      "name": "Get Order by Id 2",
+      "name": "Get referral by referralId",
       "operation": "GET",
-      "url": "/orders/2",
+      "url": "/referral/2",
       "response": {
         "header": {
         },
         "status": 200,
         "body": {
           "id": 2,
-          "customerId": 1,
-          "item": "Mobile Phone"
+          "receivedDate": 1429113133002,
+          "numberInGroup": 0,
+          "asf1Received": false,
+          "recentAccomodationTypeId": 2,
+          "applicationStatusId": 2,
+          "asylumSeeker": false
         }
       }
     }
