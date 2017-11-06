@@ -19,11 +19,31 @@ Put the following JSON into the simulator json file above.
 
 > That's it. The REST api is ready to use.
 
+> "ignoreBody":false : This means, the mock API will evaluate JSON match/compare with the POST body with {"status": "In Progress"}, if matches then you get a response 200(ok) with { "pid": 1001 }, otherwise a 40X will be returned to the caller.
+
+> "ignoreBody":true : Which is default even if you dont specify this. This means, the mock API will accept any POST JSON body and will not compare/match against the mocked body, then you get a response 200(ok) with { "pid": 1001 }.
+
+
 Json structure is as below. Sample content of the **customers-simulator.json**
 `````
 {
     "name" : "Customers-Simulator",
     "apis" : [
+    {
+      "name": "e.g. Create a Process Instance",
+      "operation": "POST",
+      "url": "/bpm-service/start/case",
+      "ignoreBody": false,
+      "body":{
+        "status": "In Progress"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "pid": 1001
+        }
+      }
+    },
     {
         "name": "Get Customer by Id",
         "operation": "GET",
