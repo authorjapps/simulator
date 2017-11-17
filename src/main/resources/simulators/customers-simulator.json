@@ -36,6 +36,24 @@
           }
         ]
       }
+    },
+    {
+      "name": "Bare json text node. This is a JSON text node appears inside double quotes",
+      "operation": "GET",
+      "url": "/textnodejson/1",
+      "response": {
+        "status": 200,
+        "body": "text-valid-json-123{}"
+      }
+    },
+    {
+      "name": "Get Customer non Json. This is a text only appears without double quotes. This is not a JSON",
+      "operation": "GET",
+      "url": "/nonjson/1",
+      "response": {
+        "status": 200,
+        "stringBody": "non-json-123{}"
+      }
     }
   ]
 }

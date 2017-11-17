@@ -181,4 +181,60 @@ public class ApiSpecDeserializerTest {
         //Map body = ((HashMap) JsonPath.read(requestJson, "$.body"));
         assertThat(readValue.getApis().get(0).getResponse().getBody(), notNullValue());
     }
+    
+    @Test
+    public final void willDeserializeNonJsonResponse_StringBody() throws  Exception {
+        final String json = "{\n"
+                            + "          \"name\": \"Micro-Service-Function-Simulator\",\n"
+                            + "          \"apis\": [{\n"
+                            + "            \"name\": \"Get referral by referralId\",\n"
+                            + "            \"operation\": \"GET\",\n"
+                            + "            \"url\": \"/referral/1\",\n"
+                            + "            \"response\": {\n"
+                            + "              \"header\": {},\n"
+                            + "              \"status\": 200,\n"
+                            + "              \"stringBody\": \"non-json{}\"\n"
+                            + "            }\n"
+                            + "          }]\n"
+                            + "        }";
+        final ObjectMapper mapper = new ObjectMapper();
+        
+        final SimpleModule module = new SimpleModule();
+        module.addDeserializer(ApiSpec.class, new ApiSpecDeserializer());
+        mapper.registerModule(module);
+        
+        final ApiSpec readValue = mapper.readValue(json, ApiSpec.class);
+        
+        assertThat(readValue.getApis().get(0).getResponse().getStringBody(), is("non-json{}"));
+    }
+    
+    @Test
+    public final void willDeserializeJsonResponse_textNodeJsonBody() throws  Exception {
+        final String json = "{\n"
+                            + "          \"name\": \"Micro-Service-Function-Simulator\",\n"
+                            + "          \"apis\": [{\n"
+                            + "            \"name\": \"Get referral by referralId\",\n"
+                            + "            \"operation\": \"GET\",\n"
+                            + "            \"url\": \"/referral/1\",\n"
+                            + "            \"response\": {\n"
+                            + "              \"header\": {},\n"
+                            + "              \"status\": 200,\n"
+                            + "              \"body\": \"text-node-valid-json\"\n"
+                            + "            }\n"
+                            + "          }]\n"
+                            + "        }";
+        final ObjectMapper mapper = new ObjectMapper();
+        
+        final SimpleModule module = new SimpleModule();
+        module.addDeserializer(ApiSpec.class, new ApiSpecDeserializer());
+        mapper.registerModule(module);
+        
+        final ApiSpec readValue = mapper.readValue(json, ApiSpec.class);
+        
+        // ---------------------------------------------------------------
+        // Mark the extra double quotes. Thats becaz its a valid JSON node
+        // ie a TextNode.
+        // ---------------------------------------------------------------
+        assertThat(readValue.getApis().get(0).getResponse().getBody(), is("\"text-node-valid-json\""));
+    }
 }

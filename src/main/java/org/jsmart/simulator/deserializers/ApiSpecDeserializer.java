@@ -36,11 +36,23 @@ public class ApiSpecDeserializer extends JsonDeserializer<ApiSpec> {
             
             JsonNode jsonStatusNode = apiNode.get("response").get("status");
             int responseStatus = (null != jsonStatusNode) ? jsonStatusNode.asInt() : 200;
-            String responseBody = apiNode.get("response").get("body").toString();
+            final JsonNode jsonBodyNode = apiNode.get("response").get("body");
+            String responseBody = jsonBodyNode != null? jsonBodyNode.toString() : null;
+            
+            final JsonNode stringBodyNode = apiNode.get("response").get("stringBody");
+            // ------------------------------------------------------------
+            // Do not read as JSONNode and then then toString. Not the same
+            // ------------------------------------------------------------
+            String stringBody = stringBodyNode != null? stringBodyNode.asText() : null;
+            
+            final JsonNode xmlBodyNode = apiNode.get("response").get("xmlBody");
+            String xmlBody = xmlBodyNode != null ? xmlBodyNode.asText() : null; //TODO- Think how to handle for SOAP xml response
+            
             JsonNode jsonHeaderNode = apiNode.get("response").get("headers");
             String responseHeaders = (null != jsonHeaderNode) ? jsonHeaderNode.toString() : "";
             
-            Api api = new Api(apiName, operation, url, body, ignoreBody, new RestResponse(responseHeaders, responseStatus, responseBody));
+            Api api = new Api(apiName, operation, url, body, ignoreBody,
+                            new RestResponse(responseHeaders, responseStatus, responseBody, stringBody,  xmlBody));
             apis.add(api);
         }
         

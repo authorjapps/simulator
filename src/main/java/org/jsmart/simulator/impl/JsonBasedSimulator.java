@@ -126,7 +126,8 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
                     logger.info("\nSimulator Response: \nStatus:"
                                 + api.getResponse().getStatus() + "\nbody: " + api.getResponse().getBody());
                     response.setStatus(Status.getStatus(api.getResponse().getStatus()));
-                    return api.getResponse().getBody();
+                    
+                    return responseBodyFromInputJson(api.getResponse());
                 }
             }
             
@@ -138,6 +139,18 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
         
         response.setStatus(Status.NOT_FOUND);
         return notFoundMessage;
+    }
+    
+    private String responseBodyFromInputJson(RestResponse response) {
+        if(! StringUtils.isEmpty(response.getStringBody())){
+            return response.getStringBody();
+            
+        } else if(! StringUtils.isEmpty(response.getXmlBody())){
+            return response.getXmlBody();
+            
+        } else {
+            return response.getBody();
+        }
     }
     
     private String handleNotFoundEndPoints(String requestTarget, Response response, ApiSpec apiSpec) {
@@ -217,7 +230,8 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
                                     +  api.getResponse().getStatus() + "\nbody: " + api.getResponse().getBody());
                         response.setStatus(Status.getStatus(api.getResponse().getStatus()));
                         setResponseHeaders(response, api.getResponse().getHeaders());
-                        return api.getResponse().getBody();
+                        
+                        return responseBodyFromInputJson(api.getResponse());
                     }
                 }
             }
@@ -277,7 +291,8 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
                                 +  api.getResponse().getStatus() + "\nbody: " + api.getResponse().getBody());
                     response.setStatus(Status.getStatus(api.getResponse().getStatus()));
                     setResponseHeaders(response, api.getResponse().getHeaders());
-                    return api.getResponse().getBody();
+                    
+                    return responseBodyFromInputJson(api.getResponse());
                 }
             }
         }
@@ -300,7 +315,8 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
                                 +  api.getResponse().getStatus() + "\nbody: " + api.getResponse().getBody());
                     response.setStatus(Status.getStatus(api.getResponse().getStatus()));
                     setResponseHeaders(response, api.getResponse().getHeaders());
-                    return api.getResponse().getBody();
+    
+                    return responseBodyFromInputJson(api.getResponse());
                 }
             }
         }
@@ -330,7 +346,7 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
                             "PATCH",
                             request.getTarget(),
                             null,
-                            false, new RestResponse(null, 201, body));
+                            false, new RestResponse(null, 201, body, null, null));
             addOrReplaceInMemoryApi(inMemoryPATCHApi);
             
             // GET api, add to in-memory DB
@@ -338,7 +354,7 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
                             "GET",
                             request.getTarget(),
                             null,
-                            false, new RestResponse("Language:en_gb", 200, body));
+                            false, new RestResponse("Language:en_gb", 200, body, null, null));
             addOrReplaceInMemoryApi(inMemoryGETApi);
             
         } catch (IOException e) {

@@ -3,6 +3,7 @@ package org.jsmart.simulator;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -362,7 +363,7 @@ public class JsonBasedSimulatorTest {
                         Method.POST,
                         endpoint,
                         null,
-                        false, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "No body")
+                        false, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "No body", null, null)
         );
         apis.add(api);
         api = new Api(
@@ -370,7 +371,7 @@ public class JsonBasedSimulatorTest {
                         Method.POST,
                         endpoint,
                         "{\"test\":\"1\"}",
-                        false, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Test 1")
+                        false, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Test 1", null, null)
         );
         apis.add(api);
         api = new Api(
@@ -378,7 +379,7 @@ public class JsonBasedSimulatorTest {
                         Method.POST,
                         endpoint,
                         "{\"test\":\"2\"}",
-                        false, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Test 2")
+                        false, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Test 2", null, null)
         );
         apis.add(api);
         ApiSpec spec = new ApiSpec("Test POST", apis);
@@ -433,7 +434,7 @@ public class JsonBasedSimulatorTest {
                         Method.POST,
                         endpoint,
                         "$NOT_FOUND",
-                        false, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Not found")
+                        false, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Not found", null, null)
         );
         apis.add(api);
         spec = new ApiSpec("Test POST with default", apis);
@@ -476,7 +477,7 @@ public class JsonBasedSimulatorTest {
                         endpoint,
                         "{\"test\":\"1\"}",
                         false,
-                        new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Test 1")
+                        new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Test 1", null, null)
         );
         apis.add(api);
         
@@ -511,7 +512,7 @@ public class JsonBasedSimulatorTest {
                         endpoint2,
                         "{\"test\":\"XX\"}",
                         true,
-                        new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Test 2")
+                        new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Test 2", null, null)
         );
         apis.add(api);
         ApiSpec spec = new ApiSpec("Test POST", apis);
@@ -531,6 +532,77 @@ public class JsonBasedSimulatorTest {
         
         String expected = "Test 2";
         assertThat("Response did not match with actual.", responseString , is(expected));
+    }
+    
+    @Test
+    public void willRespondToGet_nonJsonStringBody() throws IOException, SAXException {
+        String endpoint = "/nonjsontest";
+        Boolean ignoreBody = true;
+        Api api = new Api(
+                        "GET with non json body",
+                        Method.GET,
+                        endpoint,
+                        null,
+                        ignoreBody,
+                        new RestResponse("{\"accept-language\": \"en_gb\"}", 200, null, "non-json{}", null)
+        );
+        
+        ApiSpec spec = new ApiSpec("Test GET", Arrays.asList(api));
+        
+        simulator.addApiSpec(spec); // This will make the endpoint ready. See @Before
+        
+        String fullUrl = String.format("http://localhost:%d%s", simulator.getPort(), endpoint);
+        
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpGet getReq = new HttpGet(fullUrl);
+
+        HttpResponse response = client.execute(getReq);
+        HttpEntity entity = response.getEntity();
+        assertNotNull(entity);
+        
+        InputStream content = entity.getContent();
+        String responseString = IOUtils.toString(content, "UTF-8");
+        
+        String expected = "non-json{}";
+        assertThat(responseString , is(expected));
+    }
+    
+    @Test
+    public void willRespondWith_nonJsonSTringBody() throws  Exception {
+        String url = String.format("http://localhost:%d/nonjson/1", simulator.getPort());
+        
+        HttpClient client = new DefaultHttpClient();
+        
+        HttpGet get = new HttpGet(url);
+        HttpResponse response = client.execute(get);
+        HttpEntity entity = response.getEntity();
+        
+        InputStream content = entity.getContent();
+        String responseString = IOUtils.toString(content, "UTF-8");
+        
+        assertThat(responseString, is("non-json-123{}"));
+    }
+    
+    @Test
+    public void willRespondWith_jsonBaretextNode() throws  Exception {
+        String url = String.format("http://localhost:%d/textnodejson/1", simulator.getPort());
+        
+        HttpClient client = new DefaultHttpClient();
+        
+        HttpGet get = new HttpGet(url);
+        HttpResponse response = client.execute(get);
+        HttpEntity entity = response.getEntity();
+        assertNotNull(entity);
+        
+        InputStream content = entity.getContent();
+        String responseString = IOUtils.toString(content, "UTF-8");
+    
+        // ---------------------------------------------------------------
+        // Mark the extra double quotes. That's becaz its a valid JSON node
+        // ie a TextNode. If you do a get request in browser, it appears
+        // with double quotes.
+        // ---------------------------------------------------------------
+        assertThat(responseString, is("\"text-valid-json-123{}\""));
     }
 }
 
