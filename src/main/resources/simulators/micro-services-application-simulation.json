@@ -13,7 +13,7 @@
           "asf1Received": false,
           "recentAccomodationTypeId": 1,
           "applicationStatusId": 1,
-          "asylumSeeker": false
+          "shopSeeker": false
         }
       }
     },
@@ -29,7 +29,7 @@
           "asf1Received": false,
           "recentAccomodationTypeId": 1,
           "applicationStatusId": 1,
-          "asylumSeeker": "something� �"
+          "shopSeeker": "something� �"
         }
       }
     },
@@ -72,7 +72,7 @@
             "asf1Received": false,
             "recentAccomodationTypeId": 1,
             "applicationStatusId": 1,
-            "asylumSeeker": false
+            "shopSeeker": false
           },
           {
             "id": 2,
@@ -81,7 +81,7 @@
             "asf1Received": false,
             "recentAccomodationTypeId": 1,
             "applicationStatusId": 1,
-            "asylumSeeker": false
+            "shopSeeker": false
           }
         ]
       }
@@ -98,7 +98,7 @@
           "numberInGroup": 0,
           "asf1Received": false,
           "recentAccomodationTypeId": 1,
-          "asylumSeeker": false
+          "shopSeeker": false
         }
       }
     },
@@ -115,7 +115,7 @@
       }
     },
     {
-      "name": "Create a Service Delivery by POST",
+      "name": "Create a Order Dispatch by POST",
       "operation": "POST",
       "url": "/home-deliveries/2",
       "response": {

@@ -1,20 +1,24 @@
 package org.jsmart.simulator.utils;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.JsonPath;
-import org.jsmart.simulator.domain.ApiSpec;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jsmart.simulator.domain.ApiSpec;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
+
 /**
  * @author Siddha
  */
 public class SimulatorJsonUtils {
+    private static final Logger logger = LoggerFactory.getLogger(SimulatorJsonUtils.class);
 
     public static ApiSpec deserialize(Reader json) {
         final ApiSpec apiSpec;
@@ -28,14 +32,16 @@ public class SimulatorJsonUtils {
     }
 
     public static Map getAsMap(String jsonString) {
-        Map<String,String> map = new HashMap<String,String>();
+        Map<String,String> map = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
 
         try {
             //convert JSON string to Map
             map = mapper.readValue(jsonString, new TypeReference<HashMap<String,String>>(){});
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Exception ex) {
+            logger.error("\n\nMicro-Simulator: Encountered Parsing Exception probably: " + ex);
+            System.err.println("\n\nMicro-Simulator: Parse Exception probably: " + ex);
+            throw new RuntimeException(ex);
         }
 
         return map;

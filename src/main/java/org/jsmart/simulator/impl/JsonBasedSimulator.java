@@ -121,20 +121,22 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
         for(ApiSpec apiSpec : apiSpecRequestResponseList) {
             for(Api api : apiSpec.getApis()) {
                 if( "GET".equals(api.getOperation()) && requestTarget.equals(api.getUrl()) ){
-                    logger.info("# Found Target: api.getOperation() : "
-                                + api.getOperation() + ", api.getUrl(): " + api.getUrl());
-                    logger.info("\nSimulator Response: \nStatus:"
-                                + api.getResponse().getStatus() + "\nbody: " + api.getResponse().getBody());
-                    response.setStatus(Status.getStatus(api.getResponse().getStatus()));
+//                    logger.info("# Found Target: api.getOperation() : " + api.getOperation() + ", api.getUrl(): " + api.getUrl());
+//                    logger.info("\nSimulator Response: \nStatus:" + api.getResponse().getStatus() + "\nbody: " + api.getResponse().getBody());
+//
+//                    response.setStatus(Status.getStatus(api.getResponse().getStatus()));
+//
+//                    setResponseHeaders(response, api.getResponse().getHeaders());
+//
+//                    return responseBodyFromInputJson(api.getResponse());
+    
+                    return createResponse(response, api);
                     
-                    return responseBodyFromInputJson(api.getResponse());
                 }
             }
             
-            //Handle $NOT_FOUND end-points. These are not to be responded with 404.
             String body = handleNotFoundEndPoints(requestTarget, response, apiSpec);
             if (body != null) return body;
-            //$NOT_FOUND end
         }
         
         response.setStatus(Status.NOT_FOUND);
@@ -219,32 +221,33 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
         logger.info("# Requested Target : POST: " + requestTarget);
         for(ApiSpec apiSpec : apiSpecRequestResponseList) {
             for(Api api : apiSpec.getApis()) {
-                if("POST".equals(api.getOperation()) &&
-                   requestTarget.equals(api.getUrl())) {
+                if("POST".equals(api.getOperation()) &&  requestTarget.equals(api.getUrl())) {
                     
                     if ((StringUtils.isBlank(api.getBody()) && StringUtils.isBlank(requestContent))
                         || compareJson(api, requestContent)) {
-                        logger.info("# Found simulated Target: api.getOperation() : "
-                                    + api.getOperation() + ", api.getUrl(): " + api.getUrl() + ", api.getName(): " + api.getName());
-                        logger.info("\nSimulator Response: \nStatus:"
-                                    +  api.getResponse().getStatus() + "\nbody: " + api.getResponse().getBody());
-                        response.setStatus(Status.getStatus(api.getResponse().getStatus()));
-                        setResponseHeaders(response, api.getResponse().getHeaders());
-                        
-                        return responseBodyFromInputJson(api.getResponse());
+                        return createResponse(response, api);
                     }
                 }
             }
         }
         
-        // Handle $NOT_FOUND end-points. These are not to be responded with 404.
         logger.info("No specific target found for: " + request.getTarget());
         String body = handleNotFoundPOSTEndPoints(request, response);
         if (body != null) return body;
-        // $NOT_FOUND end
         
         response.setStatus(Status.NOT_FOUND);
         return notFoundMessage;
+    }
+    
+    private String createResponse(Response response, Api api) {
+        logger.info("# Found simulated Target: api.getOperation() : " + api.getOperation() + ", api.getUrl(): " + api.getUrl() + ", api.getName(): " + api.getName());
+        logger.info("\nSimulator Response: \nStatus:" +  api.getResponse().getStatus() + "\nbody: " + api.getResponse().getBody());
+        
+        response.setStatus(Status.getStatus(api.getResponse().getStatus()));
+        setResponseHeaders(response, api.getResponse().getHeaders());
+        
+        return responseBodyFromInputJson(api.getResponse());
+        
     }
     
     private boolean compareJson(Api api, String str2) {
@@ -285,14 +288,7 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
             logger.info("# Requested Target : PUT: " + requestTarget);
             for(Api api : apiSpec.getApis()) {
                 if(OPERATION.equals(api.getOperation()) && requestTarget.equals(api.getUrl())) {
-                    logger.info("# Found simulated Target: api.getOperation() : "
-                                + api.getOperation() + ", api.getUrl(): " + api.getUrl() + ", api.getName(): " + api.getName());
-                    logger.info("\nSimulator Response: \nStatus:"
-                                +  api.getResponse().getStatus() + "\nbody: " + api.getResponse().getBody());
-                    response.setStatus(Status.getStatus(api.getResponse().getStatus()));
-                    setResponseHeaders(response, api.getResponse().getHeaders());
-                    
-                    return responseBodyFromInputJson(api.getResponse());
+                    return createResponse(response, api);
                 }
             }
         }
@@ -354,11 +350,13 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
                             "GET",
                             request.getTarget(),
                             null,
-                            false, new RestResponse("Language:en_gb", 200, body, null, null));
+                            false, new RestResponse("{\"Language\":\"en_gb\"}", 200, body, null, null));
             addOrReplaceInMemoryApi(inMemoryGETApi);
             
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage());
+        } catch (Exception excp) {
+            excp.printStackTrace();
+            logger.error("Exception was: " + excp);
+            throw new RuntimeException(excp.getMessage());
         }
     }
     
@@ -382,7 +380,7 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
         body = response.getPrintStream();
         long time = System.currentTimeMillis();
         
-        response.setContentType("application/json"); //"application/json" application/html
+        response.setContentType("application/json");
         response.setDescription(getSimulatorName());
         
         response.setDate("Date", time);

@@ -29,19 +29,19 @@
         "body": [
             {
               "id": 10000001,
-              "homeHandleSpace": "CID_CASE_ID",
-              "homeHandleValue": "test_cid_case_id_value",
+              "shopSpace": "MI_REP_ID",
+              "orderHandlingValue": "test_MI_REP_id_value",
               "homeDeliveryType": {
                 "id": 3001,
                 "code": "AS_CLAIM",
-                "description": "Asylum Claim",
-                "longDescription": "Asylum Claim"
+                "description": "shop Claim",
+                "longDescription": "shop Claim"
               },
               "homeDeliveryStatus": {
                 "id": 3008,
                 "code": "IN_PROGRESS",
-                "description": "Service Delivery in progress",
-                "longDescription": "Service Delivery in progress"
+                "description": "Order Dispatch in progress",
+                "longDescription": "Order Dispatch in progress"
               },
               "involvements": [
                 {
@@ -73,7 +73,7 @@
                     "description": "IPF Vertical (Stage)",
                     "longDescription": "This should be from Product Catalogue"
                   },
-                  "processStatus": {
+                  "dispatchStatus": {
                     "id": 3020,
                     "code": "NEW",
                     "description": "New process",
@@ -88,19 +88,19 @@
             },
             {
               "id": 10000002,
-              "homeHandleSpace": "CID_CASE_ID",
-              "homeHandleValue": "test_cid_case_id_value",
+              "shopSpace": "MI_REP_ID",
+              "orderHandlingValue": "test_MI_REP_id_value",
               "homeDeliveryType": {
                 "id": 3001,
                 "code": "AS_CLAIM",
-                "description": "Asylum Claim",
-                "longDescription": "Asylum Claim"
+                "description": "shop Claim",
+                "longDescription": "shop Claim"
               },
               "homeDeliveryStatus": {
                 "id": 3008,
                 "code": "IN_PROGRESS",
-                "description": "Service Delivery in progress",
-                "longDescription": "Service Delivery in progress"
+                "description": "Order Dispatch in progress",
+                "longDescription": "Order Dispatch in progress"
               },
               "involvements": [
                 {
@@ -132,7 +132,7 @@
                     "description": "IPF Vertical (Stage)",
                     "longDescription": "This should be from Product Catalogue"
                   },
-                  "processStatus": {
+                  "dispatchStatus": {
                     "id": 3020,
                     "code": "NEW",
                     "description": "New process",
@@ -147,19 +147,19 @@
             },
             {
               "id": 10000003,
-              "homeHandleSpace": "CID_CASE_ID",
-              "homeHandleValue": "test_cid_case_id_value",
+              "shopSpace": "MI_REP_ID",
+              "orderHandlingValue": "test_MI_REP_id_value",
               "homeDeliveryType": {
                 "id": 3001,
                 "code": "AS_CLAIM",
-                "description": "Asylum Claim",
-                "longDescription": "Asylum Claim"
+                "description": "shop Claim",
+                "longDescription": "shop Claim"
               },
               "homeDeliveryStatus": {
                 "id": 3008,
                 "code": "IN_PROGRESS",
-                "description": "Service Delivery in progress",
-                "longDescription": "Service Delivery in progress"
+                "description": "Order Dispatch in progress",
+                "longDescription": "Order Dispatch in progress"
               },
               "involvements": [
                 {
@@ -191,7 +191,7 @@
                     "description": "IPF Vertical (Stage)",
                     "longDescription": "This should be from Product Catalogue"
                   },
-                  "processStatus": {
+                  "dispatchStatus": {
                     "id": 3020,
                     "code": "NEW",
                     "description": "New process",

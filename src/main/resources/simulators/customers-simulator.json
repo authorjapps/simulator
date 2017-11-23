@@ -20,7 +20,8 @@
       "url" : "/customers",
       "response" : {
         "headers" : {
-          "language" : "en_GB"
+          "language" : "en_GB",
+          "client_id" : "abcd-client-001"
         },
         "status" : 200,
         "body" : [

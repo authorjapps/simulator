@@ -32,7 +32,7 @@ public class ApiSpecDeserializerTest {
                 "          \"recentAccomodationTypeId\": 1,\n" +
                 "          \"referralSourceId\": 1,\n" +
                 "          \"applicationStatusId\": 1,\n" +
-                "          \"asylumSeeker\": false\n" +
+                "          \"shopSeeker\": false\n" +
                 "        }\n" +
                 "      }\n" +
                 "    }\n" +
@@ -71,7 +71,7 @@ public class ApiSpecDeserializerTest {
                 "          \"recentAccomodationTypeId\": 1,\n" +
                 "          \"referralSourceId\": 1,\n" +
                 "          \"applicationStatusId\": 1,\n" +
-                "          \"asylumSeeker\": false\n" +
+                "          \"shopSeeker\": false\n" +
                 "        }\n" +
                 "      }\n" +
                 "    }\n" +
@@ -103,7 +103,7 @@ public class ApiSpecDeserializerTest {
                 "          \"recentAccomodationTypeId\": 1,\n" +
                 "          \"referralSourceId\": 1,\n" +
                 "          \"applicationStatusId\": 1,\n" +
-                "          \"asylumSeeker\": false\n" +
+                "          \"shopSeeker\": false\n" +
                 "        }\n" +
                 "      }\n" +
                 "    },\n" +
@@ -121,7 +121,7 @@ public class ApiSpecDeserializerTest {
                 "          \"numberInGroup\": 0,\n" +
                 "          \"referralSourceId\": 2,\n" +
                 "          \"applicationStatusId\": 2,\n" +
-                "          \"asylumSeeker\": false\n" +
+                "          \"shopSeeker\": false\n" +
                 "        }\n" +
                 "      }\n" +
                 "    }\n" +
@@ -158,7 +158,7 @@ public class ApiSpecDeserializerTest {
                 "          \"numberInGroup\": 0,\n" +
                 "          \"referralSourceId\": 1,\n" +
                 "          \"applicationStatusId\": 1,\n" +
-                "          \"asylumSeeker\": false\n" +
+                "          \"shopSeeker\": false\n" +
                 "        }\n" +
                 "      }\n" +
                 "    }\n" +

@@ -16,7 +16,7 @@
           "asf1Received": false,
           "recentAccomodationTypeId": 1,
           "applicationStatusId": 1,
-          "asylumSeeker": false
+          "shopSeeker": false
         }
       }
     },
@@ -35,7 +35,7 @@
           "asf1Received": false,
           "recentAccomodationTypeId": 2,
           "applicationStatusId": 2,
-          "asylumSeeker": false
+          "shopSeeker": false
         }
       }
     }

@@ -41,7 +41,7 @@ public class ApiSpecDeserializer extends JsonDeserializer<ApiSpec> {
             
             final JsonNode stringBodyNode = apiNode.get("response").get("stringBody");
             // ------------------------------------------------------------
-            // Do not read as JSONNode and then then toString. Not the same
+            // Do not read as JSONNode and then toString etc. Not the same
             // ------------------------------------------------------------
             String stringBody = stringBodyNode != null? stringBodyNode.asText() : null;
             

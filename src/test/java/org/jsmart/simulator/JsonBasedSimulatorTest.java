@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -55,7 +56,7 @@ public class JsonBasedSimulatorTest {
     }
     
     @Test
-    public void willCreatehomeDeliveryAndReturnSserviceIdByPOST() throws ClientProtocolException, IOException, SAXException {
+    public void willCreatehomeDeliveryAndReturnSserviceIdByPOST() throws IOException, SAXException {
         String url = String.format("http://localhost:%d/home-delivery/home-deliveries", simulator.getPort());
         
         HttpClient client = new DefaultHttpClient();
@@ -91,7 +92,7 @@ public class JsonBasedSimulatorTest {
                           "\"asf1Received\":false," +
                           "\"recentAccomodationTypeId\":1," +
                           "\"applicationStatusId\":1," +
-                          "\"asylumSeeker\":false" +
+                          "\"shopSeeker\":false" +
                           "}";
         
         assertThat("Response did not match with actual.", expected, is(responseString));
@@ -116,7 +117,7 @@ public class JsonBasedSimulatorTest {
                 "\"asf1Received\":false," +
                 "\"recentAccomodationTypeId\":1," +
                 "\"applicationStatusId\":1," +
-                "\"asylumSeeker\":\"something� �\"" +
+                "\"shopSeeker\":\"something� �\"" +
                 "}";
 
         assertThat("Response did not match with actual.", expected, is(responseString));
@@ -141,7 +142,7 @@ public class JsonBasedSimulatorTest {
                           "\"asf1Received\":false," +
                           "\"recentAccomodationTypeId\":1," +
                           "\"applicationStatusId\":1," +
-                          "\"asylumSeeker\":false" +
+                          "\"shopSeeker\":false" +
                           "}";
         
         JSONAssert.assertEquals(expected, responseString, true);
@@ -169,7 +170,7 @@ public class JsonBasedSimulatorTest {
                           "            \"asf1Received\": false,\n" +
                           "            \"recentAccomodationTypeId\": 1,\n" +
                           "            \"applicationStatusId\": 1,\n" +
-                          "            \"asylumSeeker\": false\n" +
+                          "            \"shopSeeker\": false\n" +
                           "          },\n" +
                           "          {\n" +
                           "            \"id\": 2,\n" +
@@ -178,7 +179,7 @@ public class JsonBasedSimulatorTest {
                           "            \"asf1Received\": false,\n" +
                           "            \"recentAccomodationTypeId\": 1,\n" +
                           "            \"applicationStatusId\": 1,\n" +
-                          "            \"asylumSeeker\": false\n" +
+                          "            \"shopSeeker\": false\n" +
                           "          }\n" +
                           "        ]";
         
@@ -603,6 +604,26 @@ public class JsonBasedSimulatorTest {
         // with double quotes.
         // ---------------------------------------------------------------
         assertThat(responseString, is("\"text-valid-json-123{}\""));
+    }
+    
+    @Test
+    public void willRespondWith_headers() throws  Exception {
+        String url = String.format("http://localhost:%d/customers", simulator.getPort());
+        
+        HttpClient client = new DefaultHttpClient();
+        
+        HttpGet get = new HttpGet(url);
+        HttpResponse response = client.execute(get);
+        HttpEntity entity = response.getEntity();
+        assertNotNull(entity);
+        
+        final Header[] allHeaders = response.getAllHeaders();
+        
+        assertThat(allHeaders.length, is(7));
+        assertThat(allHeaders[3].getName(), is("language"));
+        assertThat(allHeaders[3].getValue(), is("en_GB"));
+        assertThat(allHeaders[4].getName(), is("client_id"));
+        assertThat(allHeaders[4].getValue(), is("abcd-client-001"));
     }
 }
 
