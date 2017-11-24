@@ -48,8 +48,8 @@ public class SimpleRestSimulatorTest {
                         Method.GET,
                         endPoint,
                         null,
-                        false, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, requiredResponse, null, null)
-        );
+                        false, null, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, requiredResponse, null, null)
+                        );
         simulator = new SimpleRestSimulator(HTTP_PORT)
                         .withApi(api)
                         .run();
@@ -93,15 +93,15 @@ public class SimpleRestSimulatorTest {
                         Method.GET,
                         endPoint1,
                         null,
-                        false, new RestResponse("some-headers", 200, customerResponse, null, null)
-        );
+                        false, null, new RestResponse("some-headers", 200, customerResponse, null, null)
+                        );
         Api apiOrder = new Api(
                         "Get Order Details By Order Id",
                         Method.GET,
                         endPoint2,
                         null,
-                        false, new RestResponse(null, 200, orderResponse, null, null)
-        );
+                        false, null, new RestResponse(null, 200, orderResponse, null, null)
+                        );
         simulator = new SimpleRestSimulator(HTTP_PORT)
                         .withApi(apiCustomer)
                         .withApi(apiOrder)
@@ -152,8 +152,8 @@ public class SimpleRestSimulatorTest {
                         Method.GET,
                         endPoint,
                         null,
-                        false, new RestResponse(null, 200, requiredResponse, null, null)
-        );
+                        false, null, new RestResponse(null, 200, requiredResponse, null, null)
+                        );
         
         simulator = new SimpleRestSimulator(HTTP_PORT)
                         .withApi(api)
@@ -182,8 +182,9 @@ public class SimpleRestSimulatorTest {
                         Method.POST,//HTTP method
                         "/customers",//End point
                         null, //Request body
-                        false, new RestResponse("{\"accept-language\": \"en_gb\"}", 201, requiredResponse, null, null)//Headers, Status code, Response String
-        );
+                        false, null, new RestResponse("{\"accept-language\": \"en_gb\"}", 201, requiredResponse, null, null)
+                        //Headers, Status code, Response String
+                        );
         simulator = new SimpleRestSimulator(HTTP_PORT)
                         .withApi(api)
                         .run();

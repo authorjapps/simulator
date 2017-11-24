@@ -217,7 +217,7 @@ public class ApiSpecDeserializerTest {
                             + "            \"operation\": \"GET\",\n"
                             + "            \"url\": \"/referral/1\",\n"
                             + "            \"response\": {\n"
-                            + "              \"header\": {},\n"
+                            + "              \"headers\": {},\n"
                             + "              \"status\": 200,\n"
                             + "              \"body\": \"text-node-valid-json\"\n"
                             + "            }\n"
@@ -236,5 +236,32 @@ public class ApiSpecDeserializerTest {
         // ie a TextNode.
         // ---------------------------------------------------------------
         assertThat(readValue.getApis().get(0).getResponse().getBody(), is("\"text-node-valid-json\""));
+    }
+    
+    @Test
+    public final void willDeSerialize_headers() throws  Exception {
+        final String json = "{\n"
+                            + "          \"name\": \"Micro-Service-Function-Simulator\",\n"
+                            + "          \"apis\": [{\n"
+                            + "            \"name\": \"Get referral by referralId\",\n"
+                            + "            \"operation\": \"GET\",\n"
+                            + "            \"url\": \"/referral/1\",\n"
+                            + "              \"headers\": {\"Language\":\"en_gb_test\"},\n"
+                            + "            \"response\": {\n"
+                            + "              \"headers\": {},\n"
+                            + "              \"status\": 200,\n"
+                            + "              \"body\": \"text-node-valid-json\"\n"
+                            + "            }\n"
+                            + "          }]\n"
+                            + "        }";
+        final ObjectMapper mapper = new ObjectMapper();
+        
+        final SimpleModule module = new SimpleModule();
+        module.addDeserializer(ApiSpec.class, new ApiSpecDeserializer());
+        mapper.registerModule(module);
+        
+        final ApiSpec readValue = mapper.readValue(json, ApiSpec.class);
+        
+        assertThat(readValue.getApis().get(0).getHeaders(), is("{\"Language\":\"en_gb_test\"}"));
     }
 }

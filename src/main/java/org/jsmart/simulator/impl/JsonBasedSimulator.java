@@ -25,6 +25,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.classpath.ClassPath;
 import com.google.classpath.ClassPathFactory;
 import com.google.classpath.RegExpResourceFilter;
@@ -33,7 +34,7 @@ import com.google.classpath.RegExpResourceFilter;
  * Created by Nirmal on 27/04/2015.
  */
 @ApiRepo("simulators")
-public class JsonBasedSimulator extends BaseSimulator implements Container{
+public class JsonBasedSimulator extends BaseSimulator implements Container {
     private static final Logger logger = LoggerFactory.getLogger(JsonBasedSimulator.class);
     
     private final String NOT_FOUND_PLACEHOLDER = "$NOT_FOUND";
@@ -58,43 +59,41 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
     }
     
     @Override
-    public void handle(Request request, Response response){
+    public void handle(Request request, Response response) {
         logger.info("\n-------  REST api  ------------ \nRequest: \n" + request.getMethod() + ":" + request.getTarget());
-        try{
+        try {
             PrintStream body = getPrintStreamForResponse(response);
             String responseBody = generateSimulatedResponse(request, response);
             body.print(responseBody);
             body.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-        catch (JSONException e) {
+        } catch (JSONException e) {
             throw new RuntimeException(e);
         }
     }
     
     private String generateSimulatedResponse(Request request, Response response) throws IOException, JSONException {
-        String notFoundMessage ="{\n" +
-                                "    \"class\": \"org.jsmart.exceptions.exceptions.service.InternalServerErrorException\",\n" +
-                                "    \"correlationId\": \"ncb5a561-yye7-44a0-bdea-6d918f310cdXX\",\n" +
-                                "    \"description\": \"An exception occurred Because could not find the end point in Simulator\",\n" +
-                                "    \"errorId\": \"org.jsmart.simulator.could.not.find.end.point:" + request.getTarget() + "\",\n" +
-                                "    \"causes\": [],\n" +
-                                "    \"suppressed\": []\n" +
-                                "}";
+        String notFoundMessage = "{\n" +
+                                 "    \"class\": \"org.jsmart.exceptions.exceptions.service.InternalServerErrorException\",\n" +
+                                 "    \"correlationId\": \"ncb5a561-yye7-44a0-bdea-6d918f310cdXX\",\n" +
+                                 "    \"description\": \"An exception occurred Because could not find the end point in Simulator\",\n" +
+                                 "    \"errorId\": \"org.jsmart.simulator.could.not.find.end.point:" + request.getTarget() + "\",\n" +
+                                 "    \"causes\": [],\n" +
+                                 "    \"suppressed\": []\n" +
+                                 "}";
         
         final String REQUEST_METHOD = request.getMethod();
         
-        switch(REQUEST_METHOD) {
+        switch (REQUEST_METHOD) {
             case "GET":
-                return respondGET(request.getTarget(), response, notFoundMessage);
+                return respondGET(request, response, notFoundMessage);
             
             case "POST":
                 return respondPOST(request, response, notFoundMessage);
             
             case "PUT":
-                return respondToPUT(request.getTarget(), response, notFoundMessage);
+                return respondToPUT(request, response, notFoundMessage);
             
             case "PATCH":
                 listenToPATCHForGETResponse(request);
@@ -108,7 +107,7 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
             default:
                 response.setStatus(Status.NOT_IMPLEMENTED);
                 String message = "{\"message\": \"" + REQUEST_METHOD + " #method not yet implemented.\"}";
-                logger.info("\nSimulator Response:" + message );
+                logger.info("\nSimulator Response:" + message);
                 return message;
         }
         
@@ -116,38 +115,75 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
         return notFoundMessage;
     }
     
-    private String respondGET(String requestTarget, Response response, String notFoundMessage) {
+    private String respondGET(Request request, Response response, String notFoundMessage) {
+        
+        String requestTarget = request.getTarget();
+        
         logger.info("# Requested Target : GET: " + requestTarget);
-        for(ApiSpec apiSpec : apiSpecRequestResponseList) {
-            for(Api api : apiSpec.getApis()) {
-                if( "GET".equals(api.getOperation()) && requestTarget.equals(api.getUrl()) ){
-//                    logger.info("# Found Target: api.getOperation() : " + api.getOperation() + ", api.getUrl(): " + api.getUrl());
-//                    logger.info("\nSimulator Response: \nStatus:" + api.getResponse().getStatus() + "\nbody: " + api.getResponse().getBody());
-//
-//                    response.setStatus(Status.getStatus(api.getResponse().getStatus()));
-//
-//                    setResponseHeaders(response, api.getResponse().getHeaders());
-//
-//                    return responseBodyFromInputJson(api.getResponse());
-    
-                    return createResponse(response, api);
+        
+        for (ApiSpec apiSpec : apiSpecRequestResponseList) {
+            for (Api api : apiSpec.getApis()) {
+                if ("GET".equals(api.getOperation()) && requestTarget.equals(api.getUrl())) {
+                    
+                    
+                    return createResponse(response, api, request);
                     
                 }
             }
             
-            String body = handleNotFoundEndPoints(requestTarget, response, apiSpec);
-            if (body != null) return body;
+            String body = handleMatchingApiNotFound(requestTarget, response, apiSpec);
+            if (body != null) {
+                return body;
+            }
         }
         
         response.setStatus(Status.NOT_FOUND);
         return notFoundMessage;
     }
     
+    private void matchRequestHeaders(CharSequence headerCharSequence, String apiHeadersJson) {
+        
+        if (!StringUtils.isEmpty(apiHeadersJson)) {
+            
+            // ----------------------------------------------------------------------
+            // Check what is actually received e.g. from browser or other http client
+            // ----------------------------------------------------------------------
+            String rawHeadersSequenceString = headerCharSequence != null ? headerCharSequence.toString() : null;
+            
+            if (rawHeadersSequenceString == null) {
+                
+                throw new RuntimeException("micro-simulator: Headers were null in the request. Could not find API matching the requested headers");
+                
+            } else {
+                final Map<String, Object> requestHeadersMap = SimulatorJsonUtils.getRequestHeadersMap(rawHeadersSequenceString);
+                
+                try {
+                    final String rawHeadersJson = (new ObjectMapper()).writeValueAsString(requestHeadersMap);
+                    boolean passed = JSONCompare
+                                    .compareJSON(apiHeadersJson, rawHeadersJson, JSONCompareMode.LENIENT)
+                                    .passed();
+                    if (!passed) {
+                        final String errMessage = "Micro-Simulator headers comparison did not pass. Expected headers were:" + apiHeadersJson
+                                        + ", Actual headers were: " + rawHeadersJson;
+                        System.err.println(errMessage);
+                        logger.error(errMessage);
+                        throw new RuntimeException(errMessage);
+                    }
+                } catch (Exception ex) {
+                    System.err.println("Micro-Simulator headers parsing exception probably:" + ex);
+                    logger.error("Micro-Simulator headers parsing exception probably:" + ex);
+                    throw new RuntimeException("micro-simulator: Headers mismatch was found. Could not find API matching the requested headers");
+                }
+            }
+        }
+        
+    }
+    
     private String responseBodyFromInputJson(RestResponse response) {
-        if(! StringUtils.isEmpty(response.getStringBody())){
+        if (!StringUtils.isEmpty(response.getStringBody())) {
             return response.getStringBody();
             
-        } else if(! StringUtils.isEmpty(response.getXmlBody())){
+        } else if (!StringUtils.isEmpty(response.getXmlBody())) {
             return response.getXmlBody();
             
         } else {
@@ -155,9 +191,9 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
         }
     }
     
-    private String handleNotFoundEndPoints(String requestTarget, Response response, ApiSpec apiSpec) {
-        for(Api api : apiSpec.getApis()) {
-            if( ("GET".equals(api.getOperation()) && urlMatchesForNotFound(api.getUrl(), requestTarget)) ){
+    private String handleMatchingApiNotFound(String requestTarget, Response response, ApiSpec apiSpec) {
+        for (Api api : apiSpec.getApis()) {
+            if (("GET".equals(api.getOperation()) && urlMatchesForNotFound(api.getUrl(), requestTarget))) {
                 logger.info("# Found Target: api.getOperation() : "
                             + api.getOperation() + ", api.getUrl(): " + api.getUrl());
                 logger.info("\nSimulator Response: \nStatus:"
@@ -170,9 +206,9 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
     }
     
     private String handleNotFoundPOSTEndPoints(Request request, Response response) {
-        for(ApiSpec apiSpec : apiSpecRequestResponseList) {
-            for(Api api : apiSpec.getApis()) {
-                if ("POST".equals(api.getOperation())){
+        for (ApiSpec apiSpec : apiSpecRequestResponseList) {
+            for (Api api : apiSpec.getApis()) {
+                if ("POST".equals(api.getOperation())) {
                     if (((api.getBody() != null && api.getBody().contains(NOT_FOUND_PLACEHOLDER)))
                         && urlMatchesForNotFound(api.getUrl(), request.getTarget())) {
                         logger.info("# Found Target: api.getOperation() : "
@@ -219,13 +255,13 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
         String requestTarget = request.getTarget();
         String requestContent = request.getContent();
         logger.info("# Requested Target : POST: " + requestTarget);
-        for(ApiSpec apiSpec : apiSpecRequestResponseList) {
-            for(Api api : apiSpec.getApis()) {
-                if("POST".equals(api.getOperation()) &&  requestTarget.equals(api.getUrl())) {
+        for (ApiSpec apiSpec : apiSpecRequestResponseList) {
+            for (Api api : apiSpec.getApis()) {
+                if ("POST".equals(api.getOperation()) && requestTarget.equals(api.getUrl())) {
                     
                     if ((StringUtils.isBlank(api.getBody()) && StringUtils.isBlank(requestContent))
                         || compareJson(api, requestContent)) {
-                        return createResponse(response, api);
+                        return createResponse(response, api, request);
                     }
                 }
             }
@@ -233,15 +269,24 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
         
         logger.info("No specific target found for: " + request.getTarget());
         String body = handleNotFoundPOSTEndPoints(request, response);
-        if (body != null) return body;
+        if (body != null) {
+            return body;
+        }
         
         response.setStatus(Status.NOT_FOUND);
         return notFoundMessage;
     }
     
-    private String createResponse(Response response, Api api) {
-        logger.info("# Found simulated Target: api.getOperation() : " + api.getOperation() + ", api.getUrl(): " + api.getUrl() + ", api.getName(): " + api.getName());
-        logger.info("\nSimulator Response: \nStatus:" +  api.getResponse().getStatus() + "\nbody: " + api.getResponse().getBody());
+    private String createResponse(Response response, Api api, Request request) {
+        logger.info("# Found simulated Target: api.getOperation() : " + api.getOperation() + ", api.getUrl(): " + api.getUrl() + ", api.getName(): "
+                    + api.getName());
+        logger.info("\nSimulator Response: \nStatus:" + api.getResponse().getStatus() + "\nbody: " + api.getResponse().getBody());
+        
+        ///
+    
+        matchRequestHeaders(request.getHeader(), api.getHeaders());
+    
+        ///
         
         response.setStatus(Status.getStatus(api.getResponse().getStatus()));
         setResponseHeaders(response, api.getResponse().getHeaders());
@@ -266,7 +311,7 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
                 passed = false;
             }
             
-            if(!passed){
+            if (!passed) {
                 logger.info("#REST end point found, but the request body did not match with simulated body."
                             + "\n=>Request body: " + api.getBody()
                             + "\n=>Simulated body: " + str2);
@@ -280,15 +325,16 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
         }
     }
     
-    private String respondToPUT(String requestTarget, Response response, String notFoundMessage) {
+    private String respondToPUT(Request request, Response response, String notFoundMessage) {
+        String requestTarget = request.getTarget();
         
         final String OPERATION = "PUT";
         
-        for(ApiSpec apiSpec : apiSpecRequestResponseList) {
+        for (ApiSpec apiSpec : apiSpecRequestResponseList) {
             logger.info("# Requested Target : PUT: " + requestTarget);
-            for(Api api : apiSpec.getApis()) {
-                if(OPERATION.equals(api.getOperation()) && requestTarget.equals(api.getUrl())) {
-                    return createResponse(response, api);
+            for (Api api : apiSpec.getApis()) {
+                if (OPERATION.equals(api.getOperation()) && requestTarget.equals(api.getUrl())) {
+                    return createResponse(response, api, request);
                 }
             }
         }
@@ -301,17 +347,17 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
         
         final String OPERATION = "PATCH";
         
-        for(ApiSpec apiSpec : apiSpecRequestResponseList) {
+        for (ApiSpec apiSpec : apiSpecRequestResponseList) {
             logger.info("# Requested Target : PATCH: " + requestTarget);
-            for(Api api : apiSpec.getApis()) {
-                if(OPERATION.equals(api.getOperation()) && requestTarget.equals(api.getUrl())) {
+            for (Api api : apiSpec.getApis()) {
+                if (OPERATION.equals(api.getOperation()) && requestTarget.equals(api.getUrl())) {
                     logger.info("# Found simulated Target: api.getOperation() : "
                                 + api.getOperation() + ", api.getUrl(): " + api.getUrl());
                     logger.info("\nSimulator Response: \nStatus:"
-                                +  api.getResponse().getStatus() + "\nbody: " + api.getResponse().getBody());
+                                + api.getResponse().getStatus() + "\nbody: " + api.getResponse().getBody());
                     response.setStatus(Status.getStatus(api.getResponse().getStatus()));
                     setResponseHeaders(response, api.getResponse().getHeaders());
-    
+                    
                     return responseBodyFromInputJson(api.getResponse());
                 }
             }
@@ -322,7 +368,7 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
     }
     
     private void setResponseHeaders(Response response, String headersJson) {
-        if(StringUtils.isEmpty(headersJson)){
+        if (StringUtils.isEmpty(headersJson)) {
             return;
         }
         Map<String, String> headersMap = SimulatorJsonUtils.getAsMap(headersJson);
@@ -330,9 +376,6 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
             response.addValue(key, headersMap.get(key));
         }
     }
-    
-    
-    
     
     private void listenToPATCHForGETResponse(Request request) {
         try {
@@ -342,7 +385,7 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
                             "PATCH",
                             request.getTarget(),
                             null,
-                            false, new RestResponse(null, 201, body, null, null));
+                            false, "{\"Language\":\"en_USA\"}", new RestResponse(null, 201, body, null, null));
             addOrReplaceInMemoryApi(inMemoryPATCHApi);
             
             // GET api, add to in-memory DB
@@ -350,7 +393,7 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
                             "GET",
                             request.getTarget(),
                             null,
-                            false, new RestResponse("{\"Language\":\"en_gb\"}", 200, body, null, null));
+                            false, "{\"Language\":\"en_USA\"}", new RestResponse("{\"Language\":\"en_gb\"}", 200, body, null, null));
             addOrReplaceInMemoryApi(inMemoryGETApi);
             
         } catch (Exception excp) {
@@ -388,10 +431,9 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
         return body;
     }
     
-    
     private String getNamesComaSeparated(List<ApiSpec> requestResponseList) {
         String simulatorNames = "All Simulators::";
-        for(ApiSpec apiSpec : requestResponseList) {
+        for (ApiSpec apiSpec : requestResponseList) {
             simulatorNames = simulatorNames + ":" + apiSpec.getName();
         }
         return simulatorNames;
@@ -402,12 +444,12 @@ public class JsonBasedSimulator extends BaseSimulator implements Container{
         ClassPathFactory factory = new ClassPathFactory();
         ClassPath jvmClassPath = factory.createFromJVM();
         
-        ApiRepo annotation = (ApiRepo)getMainRunnerClass().getAnnotation(ApiRepo.class);
+        ApiRepo annotation = (ApiRepo) getMainRunnerClass().getAnnotation(ApiRepo.class);
         packageName = annotation.value();
         String[] allSimulationFiles = jvmClassPath.findResources(packageName, new RegExpResourceFilter(".*", ".*\\.json$"));
         
-        if(null == allSimulationFiles || allSimulationFiles.length == 0) {
-            throw new RuntimeException("YouTriedToSimulateNothingException: Check the (" + packageName + ") integration test repo folder(empty?). " );
+        if (null == allSimulationFiles || allSimulationFiles.length == 0) {
+            throw new RuntimeException("YouTriedToSimulateNothingException: Check the (" + packageName + ") integration test repo folder(empty?). ");
         }
         
         // deserialize the ApiSpec

@@ -5,20 +5,22 @@ package org.jsmart.simulator.domain;
  * Created by Siddha on 25/04/2015.
  */
 public class Api {
-    private String name;
-    private String operation;
-    private String url;
-    private String body;
-    private Boolean ignoreBody;
-    private RestResponse response;
+    private final String name;
+    private final String operation;
+    private final String url;
+    private final String body;
+    private final Boolean ignoreBody;
+    private final RestResponse response;
+    private final String headers;
     
-    public Api(String name, String operation, String url, String body, Boolean ignoreBody, RestResponse response) {
+    public Api(String name, String operation, String url, String body, Boolean ignoreBody, String headers, RestResponse response) {
         this.name = name;
         this.operation = operation;
         this.url = url;
         this.body = body;
         this.ignoreBody = ignoreBody;
         this.response = response;
+        this.headers = headers;
     }
     
     public String getName() {
@@ -43,6 +45,10 @@ public class Api {
     
     public RestResponse getResponse() {
         return response;
+    }
+    
+    public String getHeaders() {
+        return headers;
     }
     
     @Override
@@ -70,8 +76,11 @@ public class Api {
                "name='" + name + '\'' +
                ", operation='" + operation + '\'' +
                ", url='" + url + '\'' +
+               ", body='" + body + '\'' +
+               ", ignoreBody=" + ignoreBody +
                ", response=" + response +
+               ", headers='" + headers + '\'' +
                '}';
     }
-    
+
 }

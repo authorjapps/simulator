@@ -33,7 +33,13 @@ public class ApiSpecDeserializer extends JsonDeserializer<ApiSpec> {
             
             JsonNode ignoreBodyNode = apiNode.get("ignoreBody");
             Boolean ignoreBody = (null != ignoreBodyNode) && ignoreBodyNode.asBoolean();
-            
+    
+            JsonNode headersNode = apiNode.get("headers");
+            String headers = headersNode != null ? headersNode.toString() : null;
+    
+            /**
+             * Response
+             */
             JsonNode jsonStatusNode = apiNode.get("response").get("status");
             int responseStatus = (null != jsonStatusNode) ? jsonStatusNode.asInt() : 200;
             final JsonNode jsonBodyNode = apiNode.get("response").get("body");
@@ -51,7 +57,7 @@ public class ApiSpecDeserializer extends JsonDeserializer<ApiSpec> {
             JsonNode jsonHeaderNode = apiNode.get("response").get("headers");
             String responseHeaders = (null != jsonHeaderNode) ? jsonHeaderNode.toString() : "";
             
-            Api api = new Api(apiName, operation, url, body, ignoreBody,
+            Api api = new Api(apiName, operation, url, body, ignoreBody, headers,
                             new RestResponse(responseHeaders, responseStatus, responseBody, stringBody,  xmlBody));
             apis.add(api);
         }

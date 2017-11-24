@@ -21,190 +21,34 @@
       }
     },
     {
-      "name": "Get Home Deliveries for a given personId",
-      "operation": "GET",
-      "url": "/home-delivery/home-deliveries/person/3001",
+      "name": "Creates a homeDelivery PUT",
+      "operation": "PUT",
+      "url": "/api/puttest/1",
+      "request": {
+        "userId": "Dianne"
+      },
       "response": {
-        "status": 200,
-        "body": [
-            {
-              "id": 10000001,
-              "shopSpace": "MI_REP_ID",
-              "orderHandlingValue": "test_MI_REP_id_value",
-              "homeDeliveryType": {
-                "id": 3001,
-                "code": "AS_CLAIM",
-                "description": "shop Claim",
-                "longDescription": "shop Claim"
-              },
-              "homeDeliveryStatus": {
-                "id": 3008,
-                "code": "IN_PROGRESS",
-                "description": "Order Dispatch in progress",
-                "longDescription": "Order Dispatch in progress"
-              },
-              "involvements": [
-                {
-                  "id": 10000002,
-                  "homeRoleType": {
-                    "id": 3012,
-                    "code": "APPLICANT",
-                    "description": "Main Applicant",
-                    "longDescription": "Main Applicant"
-                  },
-                  "person": {
-                    "personId": 3001,
-                    "recentBiographics": [
-                    ],
-                    "createdDate": "2015-08-17T08:52:55Z"
-                  },
-                  "createdDate": "2015-08-17T08:52:55Z",
-                  "lastUpdated": "2015-08-17T08:52:55Z"
-                }
-              ],
-              "attributes": [
-              ],
-              "homeDeliveryProcesses": [
-                {
-                  "id": 10000001,
-                  "homeDeliveryStage": {
-                    "id": 1,
-                    "code": "REGISTRATION",
-                    "description": "IPF Vertical (Stage)",
-                    "longDescription": "This should be from Product Catalogue"
-                  },
-                  "dispatchStatus": {
-                    "id": 3020,
-                    "code": "NEW",
-                    "description": "New process",
-                    "longDescription": "New process"
-                  },
-                  "createdDate": "2015-08-17T08:52:55Z",
-                  "lastUpdated": "2015-08-17T08:52:55Z"
-                }
-              ],
-              "createdDate": "2015-08-17T08:52:55Z",
-              "lastUpdated": "2015-08-17T08:52:55Z"
-            },
-            {
-              "id": 10000002,
-              "shopSpace": "MI_REP_ID",
-              "orderHandlingValue": "test_MI_REP_id_value",
-              "homeDeliveryType": {
-                "id": 3001,
-                "code": "AS_CLAIM",
-                "description": "shop Claim",
-                "longDescription": "shop Claim"
-              },
-              "homeDeliveryStatus": {
-                "id": 3008,
-                "code": "IN_PROGRESS",
-                "description": "Order Dispatch in progress",
-                "longDescription": "Order Dispatch in progress"
-              },
-              "involvements": [
-                {
-                  "id": 10000004,
-                  "homeRoleType": {
-                    "id": 3012,
-                    "code": "APPLICANT",
-                    "description": "Main Applicant",
-                    "longDescription": "Main Applicant"
-                  },
-                  "person": {
-                    "personId": 3001,
-                    "recentBiographics": [
-                    ],
-                    "createdDate": "2015-08-17T08:53:44Z"
-                  },
-                  "createdDate": "2015-08-17T08:53:44Z",
-                  "lastUpdated": "2015-08-17T08:53:44Z"
-                }
-              ],
-              "attributes": [
-              ],
-              "homeDeliveryProcesses": [
-                {
-                  "id": 10000002,
-                  "homeDeliveryStage": {
-                    "id": 1,
-                    "code": "REGISTRATION",
-                    "description": "IPF Vertical (Stage)",
-                    "longDescription": "This should be from Product Catalogue"
-                  },
-                  "dispatchStatus": {
-                    "id": 3020,
-                    "code": "NEW",
-                    "description": "New process",
-                    "longDescription": "New process"
-                  },
-                  "createdDate": "2015-08-17T08:53:44Z",
-                  "lastUpdated": "2015-08-17T08:53:44Z"
-                }
-              ],
-              "createdDate": "2015-08-17T08:53:44Z",
-              "lastUpdated": "2015-08-17T08:53:44Z"
-            },
-            {
-              "id": 10000003,
-              "shopSpace": "MI_REP_ID",
-              "orderHandlingValue": "test_MI_REP_id_value",
-              "homeDeliveryType": {
-                "id": 3001,
-                "code": "AS_CLAIM",
-                "description": "shop Claim",
-                "longDescription": "shop Claim"
-              },
-              "homeDeliveryStatus": {
-                "id": 3008,
-                "code": "IN_PROGRESS",
-                "description": "Order Dispatch in progress",
-                "longDescription": "Order Dispatch in progress"
-              },
-              "involvements": [
-                {
-                  "id": 10000006,
-                  "homeRoleType": {
-                    "id": 3012,
-                    "code": "APPLICANT",
-                    "description": "Main Applicant",
-                    "longDescription": "Main Applicant"
-                  },
-                  "person": {
-                    "personId": 3001,
-                    "recentBiographics": [
-                    ],
-                    "createdDate": "2015-08-17T08:56:14Z"
-                  },
-                  "createdDate": "2015-08-17T08:56:14Z",
-                  "lastUpdated": "2015-08-17T08:56:14Z"
-                }
-              ],
-              "attributes": [
-              ],
-              "homeDeliveryProcesses": [
-                {
-                  "id": 10000003,
-                  "homeDeliveryStage": {
-                    "id": 1,
-                    "code": "REGISTRATION",
-                    "description": "IPF Vertical (Stage)",
-                    "longDescription": "This should be from Product Catalogue"
-                  },
-                  "dispatchStatus": {
-                    "id": 3020,
-                    "code": "NEW",
-                    "description": "New process",
-                    "longDescription": "New process"
-                  },
-                  "createdDate": "2015-08-17T08:56:14Z",
-                  "lastUpdated": "2015-08-17T08:56:14Z"
-                }
-              ],
-              "createdDate": "2015-08-17T08:56:14Z",
-              "lastUpdated": "2015-08-17T08:56:14Z"
-            }
-          ]
+        "status": 201,
+        "body": {
+          "id": 1
+        }
+      }
+    },
+    {
+      "name": "Creates a homeDelivery PUT",
+      "operation": "PUT",
+      "url": "/api/puttest/headers/2",
+      "request": {
+        "userId": "Dianne"
+      },
+      "headers": {
+        "test_header_key":"test_header_value"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": 1
+        }
       }
     }
   ]

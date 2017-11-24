@@ -55,6 +55,29 @@
         "status": 200,
         "stringBody": "non-json-123{}"
       }
+    },
+    {
+      "name" : "header related",
+      "operation" : "GET",
+      "url" : "/api/mule/vanilla/1",
+      "headers" : {
+        "client_id_x" : "idx-001",
+        "client_secret_x" : "sec-001"
+      },
+      "response" : {
+        "headers" : {
+          "language" : "en_GB",
+          "client_id" : "abcd-client-001"
+        },
+        "status" : 200,
+        "body" : [
+          {
+            "id": 1,
+            "appType": "Mule",
+            "sex": "You Know"
+          }
+        ]
+      }
     }
   ]
 }

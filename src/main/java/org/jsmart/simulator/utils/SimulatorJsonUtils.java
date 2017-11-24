@@ -48,34 +48,67 @@ public class SimulatorJsonUtils {
     }
 
     public static void main(String[] args) {
-        String itemJson = "";
-
-        String json = "{\"phonetype\":\"N95\",\"cat\":\"WP\"}";
-
-        Map<String,String> map = new HashMap<String,String>();
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-
-            //convert JSON string to Map
-            map = mapper.readValue(json,
-                    new TypeReference<HashMap<String,String>>(){});
-
-            System.out.println(map);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String raw = "GET /customers HTTP/1.1\n"
+                     + "cache-control: no-cache\n"
+                     + "Postman-Token: d2b1f2b1-bfff-401a-8627-b1944dae1aa9\n"
+                     + "Content-Type: application/json\n"
+                     + "hsbc-client-id-x: rss-value-client-id-x\n"
+                     + "User-Agent: PostmanRuntime/3.0.11-hotfix.2\n"
+                     + "Accept: */*\n"
+                     + "Host: localhost:9999\n"
+                     + "accept-encoding: gzip, deflate\n"
+                     + "Connection: keep-alive\n"
+                     + "\n";
+        Map<String, Object> myMap = getRequestHeadersMap(raw);
+    
+        System.out.println(myMap);
+        
+//        Map<String, String> properties = Splitter.onPattern("(?<=\\:\\d+),").withKeyValueSeparator(": ").split(raw);
+//        System.out.println("output " + properties );
+    
+        //        String itemJson = "";
+//
+//        String json = "{\"phonetype\":\"N95\",\"cat\":\"WP\"}";
+//
+//        Map<String,String> map = new HashMap<String,String>();
+//        ObjectMapper mapper = new ObjectMapper();
+//
+//        try {
+//
+//            //convert JSON string to Map
+//            map = mapper.readValue(json,
+//                    new TypeReference<HashMap<String,String>>(){});
+//
+//            System.out.println(map);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
-
+    
+    public static Map<String, Object> getRequestHeadersMap(String colonSeparatedHeaders) {
+        final String[] colonPairs = colonSeparatedHeaders.replaceAll("\r", "").split("\n");
+        Map<String, Object> headersMap = new HashMap<>();
+    
+        final String KV_SEPARATOR = ": ";
+        
+        for (int i=0;i<colonPairs.length;i++) {
+            String pair = colonPairs[i];
+            String[] keyValue = pair.split(KV_SEPARATOR);
+            if(keyValue.length == 2){
+                headersMap.put(keyValue[0], keyValue[1]);
+            }
+        }
+        return headersMap;
+    }
+    
     public static String readValue(String jsonString, String key) {
-        String attributeValue = null;
-
         try {
-            attributeValue = ((String) JsonPath.read(jsonString, "$."+key));
+            return ((String) JsonPath.read(jsonString, "$."+key));
         } catch (ParseException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
-        return attributeValue;
-
     }
+    
+    
 }

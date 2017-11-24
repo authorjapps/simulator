@@ -14,6 +14,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -71,6 +72,25 @@ public class JsonBasedSimulatorTest {
         String expected = "{}";
         
         assertThat("Response did not match with actual.", responseString , is(expected));
+    }
+    
+    @Test
+    public void willCreatehomeDeliveryAndReturnSserviceIdByPUT() throws IOException, SAXException {
+        String url = String.format("http://localhost:%d/api/puttest/1", simulator.getPort());
+        
+        HttpClient client = new DefaultHttpClient();
+        
+        HttpPut ht = new HttpPut(url);
+        HttpResponse response = client.execute(ht);
+        HttpEntity entity = response.getEntity();
+        assertNotNull(entity);
+        
+        InputStream content = entity.getContent();
+        String responseString = IOUtils.toString(content, "UTF-8");
+        
+        String expected = "{\"id\":1}";
+        
+        assertThat( responseString , is(expected));
     }
     
     @Test
@@ -266,15 +286,18 @@ public class JsonBasedSimulatorTest {
         // Now invoke the REST end point and do assertions.
         //HttpGet get = new HttpGet(url);
         HttpClient clientForGet = new DefaultHttpClient();
-        HttpResponse responseOfGet = clientForGet.execute(new HttpGet(urlGET));
+        
+        final HttpGet httpGetRequest = new HttpGet(urlGET);
+        httpGetRequest.setHeader("Language", "en_USA");
+        HttpResponse responseOfGet = clientForGet.execute(httpGetRequest);
         HttpEntity entityOfGetResponse = responseOfGet.getEntity();
         
         assertNotNull(entity);
-        assertThat("Status was not 200.", responseOfGet.getStatusLine().getStatusCode(), is(200));
+        assertThat(responseOfGet.getStatusLine().getStatusCode(), is(200));
         
         InputStream contentOfGetResponse = entityOfGetResponse.getContent();
         String responseStringOfGet = IOUtils.toString(contentOfGetResponse, "UTF-8");
-        assertThat("Response did not match with actual.", responseStringOfGet, is(expectedGETResponse));
+        assertThat(responseStringOfGet, is(expectedGETResponse));
     }
     
     @Test
@@ -311,7 +334,11 @@ public class JsonBasedSimulatorTest {
         // Now invoke the REST end point and do assertions.
         //HttpGet get = new HttpGet(url);
         HttpClient clientForGet = HttpClientBuilder.create().build();
-        HttpResponse responseOfGet = clientForGet.execute(new HttpGet(urlGET));
+        
+        final HttpGet httpGetRequest = new HttpGet(urlGET);
+        httpGetRequest.setHeader("Language", "en_USA");
+    
+        HttpResponse responseOfGet = clientForGet.execute(httpGetRequest);
         HttpEntity entityOfGetResponse = responseOfGet.getEntity();
         
         assertNotNull(entity);
@@ -344,7 +371,11 @@ public class JsonBasedSimulatorTest {
         // Now invoke the REST end point and do assertions.
         //HttpGet get = new HttpGet(url);
         HttpClient clientForGet2 = HttpClientBuilder.create().build();
-        HttpResponse responseOfGet2 = clientForGet2.execute(new HttpGet(urlGET));
+    
+        final HttpGet httpGetRequest2 = new HttpGet(urlGET);
+        httpGetRequest2.setHeader("Language", "en_USA");
+    
+        HttpResponse responseOfGet2 = clientForGet2.execute(httpGetRequest2);
         HttpEntity entityOfGetResponse2 = responseOfGet2.getEntity();
         
         assertNotNull(entity2);
@@ -364,24 +395,24 @@ public class JsonBasedSimulatorTest {
                         Method.POST,
                         endpoint,
                         null,
-                        false, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "No body", null, null)
-        );
+                        false, null, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "No body", null, null)
+                        );
         apis.add(api);
         api = new Api(
                         "POST with body (test1)",
                         Method.POST,
                         endpoint,
                         "{\"test\":\"1\"}",
-                        false, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Test 1", null, null)
-        );
+                        false, null, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Test 1", null, null)
+                        );
         apis.add(api);
         api = new Api(
                         "POST with body (test2)",
                         Method.POST,
                         endpoint,
                         "{\"test\":\"2\"}",
-                        false, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Test 2", null, null)
-        );
+                        false, null, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Test 2", null, null)
+                        );
         apis.add(api);
         ApiSpec spec = new ApiSpec("Test POST", apis);
         simulator.addApiSpec(spec);
@@ -435,8 +466,8 @@ public class JsonBasedSimulatorTest {
                         Method.POST,
                         endpoint,
                         "$NOT_FOUND",
-                        false, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Not found", null, null)
-        );
+                        false, null, new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Not found", null, null)
+                        );
         apis.add(api);
         spec = new ApiSpec("Test POST with default", apis);
         simulator.addApiSpec(spec);
@@ -477,9 +508,9 @@ public class JsonBasedSimulatorTest {
                         Method.POST,
                         endpoint,
                         "{\"test\":\"1\"}",
-                        false,
+                        false, null,
                         new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Test 1", null, null)
-        );
+                        );
         apis.add(api);
         
         ApiSpec spec = new ApiSpec("Test POST", apis);
@@ -512,9 +543,9 @@ public class JsonBasedSimulatorTest {
                         Method.POST,
                         endpoint2,
                         "{\"test\":\"XX\"}",
-                        true,
+                        true, null,
                         new RestResponse("{\"accept-language\": \"en_gb\"}", 200, "Test 2", null, null)
-        );
+                        );
         apis.add(api);
         ApiSpec spec = new ApiSpec("Test POST", apis);
         simulator.addApiSpec(spec);
@@ -544,9 +575,9 @@ public class JsonBasedSimulatorTest {
                         Method.GET,
                         endpoint,
                         null,
-                        ignoreBody,
+                        ignoreBody, null,
                         new RestResponse("{\"accept-language\": \"en_gb\"}", 200, null, "non-json{}", null)
-        );
+                        );
         
         ApiSpec spec = new ApiSpec("Test GET", Arrays.asList(api));
         
@@ -624,6 +655,60 @@ public class JsonBasedSimulatorTest {
         assertThat(allHeaders[3].getValue(), is("en_GB"));
         assertThat(allHeaders[4].getName(), is("client_id"));
         assertThat(allHeaders[4].getValue(), is("abcd-client-001"));
+    }
+    
+    @Test
+    public void willRespondWillMatchWithRequest_headers() throws  Exception {
+        String url = String.format("http://localhost:%d/api/mule/vanilla/1", simulator.getPort());
+        
+        HttpClient client = new DefaultHttpClient();
+        
+        HttpGet get = new HttpGet(url);
+        
+        get.setHeader("client_id_x", "idx-001");
+        get.setHeader("client_secret_x", "sec-001");
+        HttpResponse response = client.execute(get);
+        assertThat(response.getStatusLine().getStatusCode(), is(200));
+    }
+    
+    @Test
+    public void willSimulatePutWith_headers() throws IOException, SAXException {
+        String url = String.format("http://localhost:%d/api/puttest/headers/2", simulator.getPort());
+        
+        HttpClient client = new DefaultHttpClient();
+        
+        HttpPut httpPut = new HttpPut(url);
+        httpPut.setHeader("test_header_key", "test_header_value");
+        httpPut.setHeader("test_header_something", "test_val_doesnt_matter");
+    
+        HttpResponse response = client.execute(httpPut);
+        HttpEntity entity = response.getEntity();
+        assertNotNull(entity);
+        
+        InputStream content = entity.getContent();
+        String responseString = IOUtils.toString(content, "UTF-8");
+        
+        String expected = "{\"id\":1}";
+        
+        assertThat( responseString , is(expected));
+    }
+    
+    @Test
+    public void willRespondWillNotMatchWithRequest_wrongHeaders() throws  Exception {
+        String url = String.format("http://localhost:%d/api/mule/vanilla/1", simulator.getPort());
+        
+        HttpClient client = new DefaultHttpClient();
+        
+        HttpGet get = new HttpGet(url);
+    
+        get.setHeader("client_id_x", "INVALID-idx-009");
+        get.setHeader("client_secret_x", "INVALID-sec-009");
+        try {
+            HttpResponse response = client.execute(get);
+        } catch (IOException ex) {
+            assertThat(ex.getMessage(), containsString("localhost:9901 failed to respond"));
+            assertThat(ex.getClass().getName(), is("org.apache.http.NoHttpResponseException"));
+        }
     }
 }
 
