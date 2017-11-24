@@ -50,6 +50,23 @@
           "id": 1
         }
       }
+    },
+    {
+      "name": "PUT body",
+      "operation": "PUT",
+      "url": "/api/puttest/body/2",
+      "body": {
+        "userName": "Dianne"
+      },
+      "headers": {
+        "test_header_key":"test_header_value"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "name": "Dianne"
+        }
+      }
     }
   ]
 }

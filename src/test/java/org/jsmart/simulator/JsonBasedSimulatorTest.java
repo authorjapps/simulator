@@ -71,7 +71,7 @@ public class JsonBasedSimulatorTest {
         
         String expected = "{}";
         
-        assertThat("Response did not match with actual.", responseString , is(expected));
+        assertThat(responseString , is(expected));
     }
     
     @Test
@@ -457,7 +457,7 @@ public class JsonBasedSimulatorTest {
         
         expected = "No body";
         
-        assertThat("Response did not match with actual.", responseString , is(expected));
+        assertThat(responseString , is(expected));
         
         /**** Check NOT_FOUND logic *****/
         apis = new ArrayList<>();

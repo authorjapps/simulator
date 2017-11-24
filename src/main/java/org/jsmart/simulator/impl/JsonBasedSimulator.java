@@ -251,32 +251,6 @@ public class JsonBasedSimulator extends BaseSimulator implements Container {
         }
     }
     
-    private String respondPOST(Request request, Response response, String notFoundMessage) throws IOException, JSONException {
-        String requestTarget = request.getTarget();
-        String requestContent = request.getContent();
-        logger.info("# Requested Target : POST: " + requestTarget);
-        for (ApiSpec apiSpec : apiSpecRequestResponseList) {
-            for (Api api : apiSpec.getApis()) {
-                if ("POST".equals(api.getOperation()) && requestTarget.equals(api.getUrl())) {
-                    
-                    if ((StringUtils.isBlank(api.getBody()) && StringUtils.isBlank(requestContent))
-                        || compareJson(api, requestContent)) {
-                        return createResponse(response, api, request);
-                    }
-                }
-            }
-        }
-        
-        logger.info("No specific target found for: " + request.getTarget());
-        String body = handleNotFoundPOSTEndPoints(request, response);
-        if (body != null) {
-            return body;
-        }
-        
-        response.setStatus(Status.NOT_FOUND);
-        return notFoundMessage;
-    }
-    
     private String createResponse(Response response, Api api, Request request) {
         logger.info("# Found simulated Target: api.getOperation() : " + api.getOperation() + ", api.getUrl(): " + api.getUrl() + ", api.getName(): "
                     + api.getName());
@@ -295,29 +269,33 @@ public class JsonBasedSimulator extends BaseSimulator implements Container {
         
     }
     
-    private boolean compareJson(Api api, String str2) {
-        if (api.getIgnoreBody() == null || !api.getIgnoreBody()) {
+    private boolean areJsonsEqual(String apiBody, String actualRequestBody, Boolean apiIgnoreBody) {
+    
+        if (apiIgnoreBody == null || !apiIgnoreBody) {
             boolean passed = false;
-            
+    
             try {
                 
                 passed = JSONCompare
-                                .compareJSON(api.getBody(), str2, JSONCompareMode.LENIENT)
+                                .compareJSON(apiBody, actualRequestBody, JSONCompareMode.LENIENT)
                                 .passed();
-            } catch (Exception e) {
                 
+            } catch (Exception e) {
                 // If we got exceptions, they weren't equal.
                 logger.info("Exception while comparing: " + e.getMessage());
                 passed = false;
             }
             
             if (!passed) {
-                logger.info("#REST end point found, but the request body did not match with simulated body."
-                            + "\n=>Request body: " + api.getBody()
-                            + "\n=>Simulated body: " + str2);
+                final String errMessage = "#REST end point found, but the Requested body did not match with Expected API body.."
+                                 + "\n=>Actual body: " + apiBody
+                                 + "\n=>Expected body: " + actualRequestBody;
+                System.err.println(errMessage);
+                logger.info(errMessage);
             }
             
             return passed;
+            
         } else {
             
             // return true if ignoreBody is true
@@ -325,18 +303,55 @@ public class JsonBasedSimulator extends BaseSimulator implements Container {
         }
     }
     
-    private String respondToPUT(Request request, Response response, String notFoundMessage) {
+    private String respondToPUT(Request request, Response response, String notFoundMessage) throws IOException {
         String requestTarget = request.getTarget();
-        
+        String requestContent = request.getContent();
+    
         final String OPERATION = "PUT";
         
         for (ApiSpec apiSpec : apiSpecRequestResponseList) {
             logger.info("# Requested Target : PUT: " + requestTarget);
             for (Api api : apiSpec.getApis()) {
                 if (OPERATION.equals(api.getOperation()) && requestTarget.equals(api.getUrl())) {
-                    return createResponse(response, api, request);
+    
+                    boolean isExpectedAndActualBody_Blank = StringUtils.isBlank(api.getBody()) && StringUtils.isBlank(requestContent);
+    
+                    if(areJsonsEqual(api.getBody(), requestContent, api.getIgnoreBody()) || isExpectedAndActualBody_Blank){
+        
+                        return createResponse(response, api, request);
+        
+                    }
                 }
             }
+        }
+        
+        response.setStatus(Status.NOT_FOUND);
+        return notFoundMessage;
+    }
+    
+    private String respondPOST(Request request, Response response, String notFoundMessage) throws IOException, JSONException {
+        String requestTarget = request.getTarget();
+        String requestContent = request.getContent();
+        logger.info("# Requested Target : POST: " + requestTarget);
+        for (ApiSpec apiSpec : apiSpecRequestResponseList) {
+            for (Api api : apiSpec.getApis()) {
+                if ("POST".equals(api.getOperation()) && requestTarget.equals(api.getUrl())) {
+                    
+                    boolean isExpectedAndActualBody_Blank = StringUtils.isBlank(api.getBody()) && StringUtils.isBlank(requestContent);
+                    
+                    if(areJsonsEqual(api.getBody(), requestContent, api.getIgnoreBody()) || isExpectedAndActualBody_Blank){
+                    
+                        return createResponse(response, api, request);
+    
+                    }
+                }
+            }
+        }
+        
+        logger.info("No specific target found for: " + request.getTarget());
+        String body = handleNotFoundPOSTEndPoints(request, response);
+        if (body != null) {
+            return body;
         }
         
         response.setStatus(Status.NOT_FOUND);
