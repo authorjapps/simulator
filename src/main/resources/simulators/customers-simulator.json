@@ -53,7 +53,7 @@
       "url": "/nonjson/1",
       "response": {
         "status": 200,
-        "stringBody": "non-json-123{}"
+        "rawBody": "non-json-123{}"
       }
     },
     {

@@ -180,8 +180,8 @@ public class JsonBasedSimulator extends BaseSimulator implements Container {
     }
     
     private String responseBodyFromInputJson(RestResponse response) {
-        if (!StringUtils.isEmpty(response.getStringBody())) {
-            return response.getStringBody();
+        if (!StringUtils.isEmpty(response.getrawBody())) {
+            return response.getrawBody();
             
         } else if (!StringUtils.isEmpty(response.getXmlBody())) {
             return response.getXmlBody();
