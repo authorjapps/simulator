@@ -71,7 +71,7 @@ public class JsonBasedSimulatorTest {
         
         String expected = "{}";
         
-        assertThat("Response did not match with actual.", responseString , is(expected));
+        assertThat(responseString , is(expected));
     }
     
     @Test
@@ -457,7 +457,7 @@ public class JsonBasedSimulatorTest {
         
         expected = "No body";
         
-        assertThat("Response did not match with actual.", responseString , is(expected));
+        assertThat(responseString , is(expected));
         
         /**** Check NOT_FOUND logic *****/
         apis = new ArrayList<>();
@@ -567,7 +567,7 @@ public class JsonBasedSimulatorTest {
     }
     
     @Test
-    public void willRespondToGet_nonJsonStringBody() throws IOException, SAXException {
+    public void willRespondToGet_nonJsonrawBody() throws IOException, SAXException {
         String endpoint = "/nonjsontest";
         Boolean ignoreBody = true;
         Api api = new Api(
@@ -600,7 +600,7 @@ public class JsonBasedSimulatorTest {
     }
     
     @Test
-    public void willRespondWith_nonJsonSTringBody() throws  Exception {
+    public void willRespondWith_nonJsonrawBody() throws  Exception {
         String url = String.format("http://localhost:%d/nonjson/1", simulator.getPort());
         
         HttpClient client = new DefaultHttpClient();

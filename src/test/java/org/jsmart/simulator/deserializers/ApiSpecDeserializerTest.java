@@ -183,7 +183,7 @@ public class ApiSpecDeserializerTest {
     }
     
     @Test
-    public final void willDeserializeNonJsonResponse_StringBody() throws  Exception {
+    public final void willDeserializeNonJsonResponse_rawBody() throws  Exception {
         final String json = "{\n"
                             + "          \"name\": \"Micro-Service-Function-Simulator\",\n"
                             + "          \"apis\": [{\n"
@@ -193,7 +193,7 @@ public class ApiSpecDeserializerTest {
                             + "            \"response\": {\n"
                             + "              \"header\": {},\n"
                             + "              \"status\": 200,\n"
-                            + "              \"stringBody\": \"non-json{}\"\n"
+                            + "              \"rawBody\": \"non-json{}\"\n"
                             + "            }\n"
                             + "          }]\n"
                             + "        }";
@@ -205,7 +205,7 @@ public class ApiSpecDeserializerTest {
         
         final ApiSpec readValue = mapper.readValue(json, ApiSpec.class);
         
-        assertThat(readValue.getApis().get(0).getResponse().getStringBody(), is("non-json{}"));
+        assertThat(readValue.getApis().get(0).getResponse().getrawBody(), is("non-json{}"));
     }
     
     @Test

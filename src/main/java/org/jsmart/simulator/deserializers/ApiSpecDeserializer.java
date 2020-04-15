@@ -45,11 +45,11 @@ public class ApiSpecDeserializer extends JsonDeserializer<ApiSpec> {
             final JsonNode jsonBodyNode = apiNode.get("response").get("body");
             String responseBody = jsonBodyNode != null? jsonBodyNode.toString() : null;
             
-            final JsonNode stringBodyNode = apiNode.get("response").get("stringBody");
+            final JsonNode rawBodyNode = apiNode.get("response").get("rawBody");
             // ------------------------------------------------------------
             // Do not read as JSONNode and then toString etc. Not the same
             // ------------------------------------------------------------
-            String stringBody = stringBodyNode != null? stringBodyNode.asText() : null;
+            String rawBody = rawBodyNode != null? rawBodyNode.asText() : null;
             
             final JsonNode xmlBodyNode = apiNode.get("response").get("xmlBody");
             String xmlBody = xmlBodyNode != null ? xmlBodyNode.asText() : null; //TODO- Think how to handle for SOAP xml response
@@ -58,7 +58,7 @@ public class ApiSpecDeserializer extends JsonDeserializer<ApiSpec> {
             String responseHeaders = (null != jsonHeaderNode) ? jsonHeaderNode.toString() : "";
             
             Api api = new Api(apiName, operation, url, body, ignoreBody, headers,
-                            new RestResponse(responseHeaders, responseStatus, responseBody, stringBody,  xmlBody));
+                            new RestResponse(responseHeaders, responseStatus, responseBody, rawBody,  xmlBody));
             apis.add(api);
         }
         
