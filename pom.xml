@@ -61,7 +61,7 @@
         <jackson-databind.version>2.4.4</jackson-databind.version>
         <json-path.version>0.5.3</json-path.version>
         <jsonassert.version>1.2.3</jsonassert.version>
-        <logback.version>1.0.7</logback.version>
+        <logback.version>1.2.0</logback.version>
         <maven-compiler-plugin.version>3.2</maven-compiler-plugin.version>
         <java-compiler-source.version>1.8</java-compiler-source.version>
         <java-compiler-target.version>1.8</java-compiler-target.version>
